@@ -103,9 +103,7 @@ async function handleStart(chatId: number, telegramId: number, username: string,
   const player = (profile as any)?.players?.[0]
 
   if (!profile || !player || player.level < 5 || !player.nation_id) {
-    await sendTelegramMessage(chatId, "⚔️ Bem-vindo ao *Arcane Relics*!\n\nAbra o reino para começar sua jornada!", {
-      inline_keyboard: [[{ text: "🏰 ENTRAR NO REINO", web_app: { url: MINI_APP_URL! } }]]
-    })
+    await sendTelegramMessage(chatId, "⚔️ Bem-vindo ao *Arcane Relics*!\n\nAbra o reino para começar sua jornada!")
     return new Response('OK', { status: 200 })
   }
 
@@ -117,8 +115,7 @@ async function handleMainMenu(chatId: number) {
     inline_keyboard: [
       [{ text: "👤 Perfil", callback_data: "menu_profile" }, { text: "🏆 Ranking", callback_data: "menu_ranking" }],
       [{ text: "🛒 Loja", callback_data: "menu_shop" }, { text: "🎒 Inventário", callback_data: "menu_inventory" }],
-      [{ text: "⚔️ Combate", callback_data: "menu_battle" }],
-      [{ text: "⚔️ ENTRAR NO REINO (JOGAR)", web_app: { url: MINI_APP_URL! } }]
+      [{ text: "⚔️ Combate", callback_data: "menu_battle" }]
     ]
   })
   return new Response('OK', { status: 200 })
