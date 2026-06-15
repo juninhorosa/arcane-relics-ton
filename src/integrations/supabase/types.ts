@@ -249,6 +249,7 @@ export type Database = {
         }
         Relationships: []
       }
+<<<<<<< HEAD
       items: {
         Row: {
           id: string
@@ -323,6 +324,8 @@ export type Database = {
           },
         ]
       }
+=======
+>>>>>>> a2e1774a9127f25d643aa8bc9aae7ee03b556dfb
       nation_ranking: {
         Row: {
           created_at: string
@@ -407,9 +410,14 @@ export type Database = {
           from_address: string | null
           id: string
           item_granted_id: string | null
+<<<<<<< HEAD
           pack_id: string | null
           player_id: string
           shop_item_id: string | null
+=======
+          pack_id: string
+          player_id: string
+>>>>>>> a2e1774a9127f25d643aa8bc9aae7ee03b556dfb
           status: Database["public"]["Enums"]["pack_status"]
           ton_amount: number
           tx_hash: string | null
@@ -420,9 +428,14 @@ export type Database = {
           from_address?: string | null
           id?: string
           item_granted_id?: string | null
+<<<<<<< HEAD
           pack_id?: string | null
           player_id: string
           shop_item_id?: string | null
+=======
+          pack_id: string
+          player_id: string
+>>>>>>> a2e1774a9127f25d643aa8bc9aae7ee03b556dfb
           status?: Database["public"]["Enums"]["pack_status"]
           ton_amount: number
           tx_hash?: string | null
@@ -433,9 +446,14 @@ export type Database = {
           from_address?: string | null
           id?: string
           item_granted_id?: string | null
+<<<<<<< HEAD
           pack_id?: string | null
           player_id?: string
           shop_item_id?: string | null
+=======
+          pack_id?: string
+          player_id?: string
+>>>>>>> a2e1774a9127f25d643aa8bc9aae7ee03b556dfb
           status?: Database["public"]["Enums"]["pack_status"]
           ton_amount?: number
           tx_hash?: string | null
@@ -462,6 +480,7 @@ export type Database = {
             referencedRelation: "players"
             referencedColumns: ["id"]
           },
+<<<<<<< HEAD
           {
             foreignKeyName: "pack_purchases_shop_item_id_fkey"
             columns: ["shop_item_id"]
@@ -469,6 +488,8 @@ export type Database = {
             referencedRelation: "shop_items"
             referencedColumns: ["id"]
           },
+=======
+>>>>>>> a2e1774a9127f25d643aa8bc9aae7ee03b556dfb
         ]
       }
       packs: {
@@ -510,6 +531,7 @@ export type Database = {
         }
         Relationships: []
       }
+<<<<<<< HEAD
       player_inventory: {
         Row: {
           id: string
@@ -564,6 +586,8 @@ export type Database = {
           },
         ]
       }
+=======
+>>>>>>> a2e1774a9127f25d643aa8bc9aae7ee03b556dfb
       players: {
         Row: {
           boost_xp_until: string | null
@@ -792,6 +816,7 @@ export type Database = {
           },
         ]
       }
+<<<<<<< HEAD
       shop_items: {
         Row: {
           id: string
@@ -842,6 +867,8 @@ export type Database = {
           },
         ]
       }
+=======
+>>>>>>> a2e1774a9127f25d643aa8bc9aae7ee03b556dfb
     }
     Views: {
       [_ in never]: never
@@ -859,8 +886,11 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "leader" | "player"
+<<<<<<< HEAD
       item_category: "weapon" | "helmet" | "armor" | "gloves" | "boots"
       item_rarity: "common" | "uncommon" | "rare" | "epic" | "legendary"
+=======
+>>>>>>> a2e1774a9127f25d643aa8bc9aae7ee03b556dfb
       item_slot: "weapon" | "armor" | "helmet" | "boots" | "accessory" | "relic"
       pack_status: "pending" | "confirmed" | "failed" | "refunded"
     }
@@ -991,8 +1021,11 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "leader", "player"],
+<<<<<<< HEAD
       item_category: ["weapon", "helmet", "armor", "gloves", "boots"],
       item_rarity: ["common", "uncommon", "rare", "epic", "legendary"],
+=======
+>>>>>>> a2e1774a9127f25d643aa8bc9aae7ee03b556dfb
       item_slot: ["weapon", "armor", "helmet", "boots", "accessory", "relic"],
       pack_status: ["pending", "confirmed", "failed", "refunded"],
     },
