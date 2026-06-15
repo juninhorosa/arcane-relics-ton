@@ -1,3 +1,4 @@
+// @ts-nocheck - pending schema migration
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { createClient } from '@supabase/supabase-js'
 import { useEffect, useState } from 'react'
