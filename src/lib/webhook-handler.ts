@@ -20,66 +20,76 @@ export async function handleTelegramWebhook(request: Request): Promise<Response 
     return new Response('Unauthorized', { status: 403 })
   }
 
-  const update = await request.json()
-
-  const tgId = update.message?.from?.id || update.callback_query?.from?.id
-  if (tgId) {
-    const { data: banCheck } = await supabase
-      .from('profiles')
-      .select('is_banned')
-      .eq('telegram_id', tgId)
-      .single()
-
-    if (banCheck?.is_banned) {
-      const chatId = update.message?.chat?.id || update.callback_query?.message?.chat?.id
-      if (chatId) await sendTelegramMessage(chatId, "🚫 *ACESSO NEGADO*\n\nSua conta foi banida por violar os termos do jogo.")
-      return new Response('Banned', { status: 200 })
-    }
+  let update: any
+  try {
+    update = await request.json()
+  } catch {
+    return new Response('Bad Request', { status: 400 })
   }
 
-  if (update.message?.text) {
-    const chatId = update.message.chat.id
-    const text = update.message.text
-    const telegramId = update.message.from.id
-    const username = update.message.from.username
-    const displayName = update.message.from.first_name
+  try {
+    const tgId = update.message?.from?.id || update.callback_query?.from?.id
+    if (tgId) {
+      const { data: banCheck } = await supabase
+        .from('profiles')
+        .select('is_banned')
+        .eq('telegram_id', tgId)
+        .maybeSingle()
 
-    if (text === '/start') {
-      return handleStart(chatId, telegramId, username, displayName)
+      if (banCheck?.is_banned) {
+        const chatId = update.message?.chat?.id || update.callback_query?.message?.chat?.id
+        if (chatId) await sendTelegramMessage(chatId, "🚫 *ACESSO NEGADO*\n\nSua conta foi banida por violar os termos do jogo.")
+        return new Response('Banned', { status: 200 })
+      }
     }
-    if (text === '/perfil') {
-      return handleProfile(chatId, telegramId)
+
+    if (update.message?.text) {
+      const chatId = update.message.chat.id
+      const text = update.message.text
+      const telegramId = update.message.from.id
+      const username = update.message.from.username
+      const displayName = update.message.from.first_name
+
+      if (text === '/start') {
+        return handleStart(chatId, telegramId, username, displayName)
+      }
+      if (text === '/perfil') {
+        return handleProfile(chatId, telegramId)
+      }
+      if (text === '/farm') {
+        return handleFarm(chatId, telegramId)
+      }
+      if (text.startsWith('/atacar')) {
+        const target = text.split(' ')[1]
+        if (!target) return sendTelegramMessage(chatId, "❌ Use: `/atacar @username`", { parse_mode: 'Markdown' })
+        return handleAttack(chatId, telegramId, target)
+      }
     }
-    if (text === '/farm') {
-      return handleFarm(chatId, telegramId)
+
+    if (update.callback_query) {
+      const data = update.callback_query.data
+      const telegramId = update.callback_query.from.id
+      const chatId = update.callback_query.message.chat.id
+
+      if (data === 'menu_profile') return handleProfile(chatId, telegramId)
+      if (data === 'menu_ranking') return handleRanking(chatId)
+      if (data === 'menu_battle') return sendTelegramMessage(chatId, "⚔️ Digite `/atacar @usuario` para desafiar alguém!")
+      if (data === 'menu_shop' || data === 'menu_inventory') return sendTelegramMessage(chatId, "🏰 Acesse o Mini App para Loja e Inventário!")
+
+      if (data.startsWith('join_nation:')) {
+        const nationCode = data.split(':')[1]
+        return handleNationJoin(chatId, telegramId, nationCode)
+      }
+      if (data === 'defend_invasion') {
+        return sendTelegramMessage(chatId, "🛡️ *ÀS ARMAS!* Abra o Mini App para se juntar à defesa!", { inline_keyboard: [[{ text: "🏰 DEFENDER AGORA", web_app: { url: `${MINI_APP_URL}/invasion` } }]] })
+      }
     }
-    if (text.startsWith('/atacar')) {
-      const target = text.split(' ')[1]
-      if (!target) return sendTelegramMessage(chatId, "❌ Use: `/atacar @username`", { parse_mode: 'Markdown' })
-      return handleAttack(chatId, telegramId, target)
-    }
+
+    return new Response('OK', { status: 200 })
+  } catch (err) {
+    console.error('Webhook error:', err)
+    return new Response('Internal Server Error', { status: 500 })
   }
-
-  if (update.callback_query) {
-    const data = update.callback_query.data
-    const telegramId = update.callback_query.from.id
-    const chatId = update.callback_query.message.chat.id
-
-    if (data === 'menu_profile') return handleProfile(chatId, telegramId)
-    if (data === 'menu_ranking') return handleRanking(chatId)
-    if (data === 'menu_battle') return sendTelegramMessage(chatId, "⚔️ Digite `/atacar @usuario` para desafiar alguém!")
-    if (data === 'menu_shop' || data === 'menu_inventory') return sendTelegramMessage(chatId, "🏰 Acesse o Mini App para Loja e Inventário!")
-
-    if (data.startsWith('join_nation:')) {
-      const nationCode = data.split(':')[1]
-      return handleNationJoin(chatId, telegramId, nationCode)
-    }
-    if (data === 'defend_invasion') {
-      return sendTelegramMessage(chatId, "🛡️ *ÀS ARMAS!* Abra o Mini App para se juntar à defesa!", { inline_keyboard: [[{ text: "🏰 DEFENDER AGORA", web_app: { url: `${MINI_APP_URL}/invasion` } }]] })
-    }
-  }
-
-  return new Response('OK', { status: 200 })
 }
 
 async function handleStart(chatId: number, telegramId: number, username: string, displayName: string) {
@@ -87,7 +97,7 @@ async function handleStart(chatId: number, telegramId: number, username: string,
     .from('profiles')
     .select('id, players(id, level, nation_id)')
     .eq('telegram_id', telegramId)
-    .single()
+    .maybeSingle()
 
   const player = (profile as any)?.players?.[0]
 
@@ -114,8 +124,8 @@ async function handleMainMenu(chatId: number) {
 }
 
 async function handleNationJoin(chatId: number, telegramId: number, nationCode: string) {
-  const { data: nation } = await supabase.from('nations').select('id, name').eq('code', nationCode).single()
-  const { data: profile } = await supabase.from('profiles').select('id').eq('telegram_id', telegramId).single()
+  const { data: nation } = await supabase.from('nations').select('id, name').eq('code', nationCode).maybeSingle()
+  const { data: profile } = await supabase.from('profiles').select('id').eq('telegram_id', telegramId).maybeSingle()
 
   if (nation && profile) {
     await supabase.from('players').insert({ user_id: profile.id, nation_id: nation.id })
@@ -130,7 +140,7 @@ async function handleProfile(chatId: number, telegramId: number) {
     .from('profiles')
     .select('*, players(*, nations(*))')
     .eq('telegram_id', telegramId)
-    .single()
+    .maybeSingle()
 
   const player = (profile as any)?.players?.[0]
   if (!player) return handleStart(chatId, telegramId, '', '')
@@ -147,7 +157,7 @@ async function handleFarm(chatId: number, telegramId: number) {
     .from('profiles')
     .select('players(*)')
     .eq('telegram_id', telegramId)
-    .single()
+    .maybeSingle()
 
   const player = (profile as any)?.players?.[0]
   if (!player) return
@@ -173,7 +183,7 @@ async function handleFarm(chatId: number, telegramId: number) {
   let currentMap = null
 
   if (player.current_map_id) {
-    const { data: map } = await supabase.from('maps').select('*').eq('id', player.current_map_id).single()
+    const { data: map } = await supabase.from('maps').select('*').eq('id', player.current_map_id).maybeSingle()
     currentMap = map
   }
 
@@ -206,8 +216,8 @@ async function handleFarm(chatId: number, telegramId: number) {
 async function handleAttack(chatId: number, attackerTelegramId: number, targetUsername: string) {
   const username = targetUsername.replace('@', '')
 
-  const { data: attackerProfile } = await supabase.from('profiles').select('*, players(*, nations(*))').eq('telegram_id', attackerTelegramId).single()
-  const { data: targetProfile } = await supabase.from('profiles').select('*, players(*, nations(*))').eq('username', username).single()
+  const { data: attackerProfile } = await supabase.from('profiles').select('*, players(*, nations(*))').eq('telegram_id', attackerTelegramId).maybeSingle()
+  const { data: targetProfile } = await supabase.from('profiles').select('*, players(*, nations(*))').eq('username', username).maybeSingle()
 
   const attacker = (attackerProfile as any)?.players?.[0]
   const target = (targetProfile as any)?.players?.[0]
@@ -241,7 +251,7 @@ async function handleAttack(chatId: number, attackerTelegramId: number, targetUs
     await supabase.from('players').update({ gold: target.gold - goldStolen, losses: target.losses + 1 }).eq('id', target.id)
 
     if (Math.random() < 0.05) {
-      const { data: relic } = await supabase.from('inventory').select('id, template_id').eq('player_id', target.id).eq('item_templates.is_relic', true).limit(1).single()
+      const { data: relic } = await supabase.from('inventory').select('id, template_id').eq('player_id', target.id).eq('item_templates.is_relic', true).limit(1).maybeSingle()
       if (relic) {
         await supabase.from('inventory').update({ player_id: attacker.id }).eq('id', relic.id)
         await sendTelegramMessage(chatId, "💎 *LENDÁRIO!* Você roubou uma Relíquia do oponente!")
