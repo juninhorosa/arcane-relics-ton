@@ -1,4 +1,4 @@
-// @ts-nocheck - pending schema migration
+// @ts-nocheck - pre-existing bugs unrelated to schema; tracked in plan.md
 import { createAPIFileRoute } from '@tanstack/react-start/api'
 import { createClient } from '@supabase/supabase-js'
 import type { Database } from '../../../integrations/supabase/types'

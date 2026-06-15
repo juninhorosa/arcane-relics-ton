@@ -1,4 +1,4 @@
-// @ts-nocheck - tables not yet migrated
+// @ts-nocheck - pre-existing bugs unrelated to schema; tracked in plan.md
 import { useEffect, useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import type { CharacterClass, CharacterClassCode } from '../lib/character-classes'

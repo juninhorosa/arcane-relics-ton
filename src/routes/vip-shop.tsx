@@ -1,4 +1,3 @@
-// @ts-nocheck - pending schema migration
 import { createFileRoute } from '@tanstack/react-router'
 import { useTonConnectUI, TonConnectButton } from '@tonconnect/ui-react'
 import { useState, useEffect } from 'react'

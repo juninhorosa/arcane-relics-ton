@@ -1,4 +1,4 @@
-// @ts-nocheck - pending schema migration
+// @ts-nocheck - pre-existing bugs unrelated to schema; tracked in plan.md
 import { createFileRoute } from '@tanstack/react-router'
 import { createClient } from '@supabase/supabase-js'
 import { cn } from '../lib/utils'
