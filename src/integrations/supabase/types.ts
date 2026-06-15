@@ -249,80 +249,6 @@ export type Database = {
         }
         Relationships: []
       }
-      items: {
-        Row: {
-          id: string
-          code: string
-          name: string
-          emoji: string
-          description: string
-          category: Database["public"]["Enums"]["item_category"]
-          class_id: string
-          attack_bonus: number
-          defense_bonus: number
-          hp_bonus: number
-          crit_bonus: number
-          dodge_bonus: number
-          rarity: Database["public"]["Enums"]["item_rarity"]
-          required_level: number
-          slot_weight: number
-          set_id: string
-          set_bonus_percentage: number
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          code: string
-          name: string
-          emoji: string
-          description: string
-          category: Database["public"]["Enums"]["item_category"]
-          class_id: string
-          attack_bonus?: number
-          defense_bonus?: number
-          hp_bonus?: number
-          crit_bonus?: number
-          dodge_bonus?: number
-          rarity?: Database["public"]["Enums"]["item_rarity"]
-          required_level?: number
-          slot_weight?: number
-          set_id: string
-          set_bonus_percentage?: number
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          code?: string
-          name?: string
-          emoji?: string
-          description?: string
-          category?: Database["public"]["Enums"]["item_category"]
-          class_id?: string
-          attack_bonus?: number
-          defense_bonus?: number
-          hp_bonus?: number
-          crit_bonus?: number
-          dodge_bonus?: number
-          rarity?: Database["public"]["Enums"]["item_rarity"]
-          required_level?: number
-          slot_weight?: number
-          set_id?: string
-          set_bonus_percentage?: number
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "items_class_id_fkey"
-            columns: ["class_id"]
-            isOneToOne: false
-            referencedRelation: "character_classes"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       nation_ranking: {
         Row: {
           created_at: string
@@ -407,9 +333,8 @@ export type Database = {
           from_address: string | null
           id: string
           item_granted_id: string | null
-          pack_id: string | null
+          pack_id: string
           player_id: string
-          shop_item_id: string | null
           status: Database["public"]["Enums"]["pack_status"]
           ton_amount: number
           tx_hash: string | null
@@ -420,9 +345,8 @@ export type Database = {
           from_address?: string | null
           id?: string
           item_granted_id?: string | null
-          pack_id?: string | null
+          pack_id: string
           player_id: string
-          shop_item_id?: string | null
           status?: Database["public"]["Enums"]["pack_status"]
           ton_amount: number
           tx_hash?: string | null
@@ -433,9 +357,8 @@ export type Database = {
           from_address?: string | null
           id?: string
           item_granted_id?: string | null
-          pack_id?: string | null
+          pack_id?: string
           player_id?: string
-          shop_item_id?: string | null
           status?: Database["public"]["Enums"]["pack_status"]
           ton_amount?: number
           tx_hash?: string | null
@@ -460,13 +383,6 @@ export type Database = {
             columns: ["player_id"]
             isOneToOne: false
             referencedRelation: "players"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "pack_purchases_shop_item_id_fkey"
-            columns: ["shop_item_id"]
-            isOneToOne: false
-            referencedRelation: "shop_items"
             referencedColumns: ["id"]
           },
         ]
@@ -508,61 +424,7 @@ export type Database = {
           name?: string
           ton_price?: number
         }
-        Relationships: [        ]
-      }
-      player_inventory: {
-        Row: {
-          id: string
-          player_id: string
-          item_id: string
-          quantity: number
-          is_equipped: boolean
-          equipped_slot: Database["public"]["Enums"]["item_category"] | null
-          durability: number
-          uses_count: number
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          player_id: string
-          item_id: string
-          quantity?: number
-          is_equipped?: boolean
-          equipped_slot?: Database["public"]["Enums"]["item_category"] | null
-          durability?: number
-          uses_count?: number
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          player_id?: string
-          item_id?: string
-          quantity?: number
-          is_equipped?: boolean
-          equipped_slot?: Database["public"]["Enums"]["item_category"] | null
-          durability?: number
-          uses_count?: number
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "player_inventory_player_id_fkey"
-            columns: ["player_id"]
-            isOneToOne: false
-            referencedRelation: "players"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "player_inventory_item_id_fkey"
-            columns: ["item_id"]
-            isOneToOne: false
-            referencedRelation: "items"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       players: {
         Row: {
@@ -792,56 +654,6 @@ export type Database = {
           },
         ]
       }
-      shop_items: {
-        Row: {
-          id: string
-          code: string
-          name: string
-          description: string
-          ton_price: number
-          item_type: string
-          item_template_id: string | null
-          duration_days: number
-          quantity: number
-          active: boolean
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          code: string
-          name: string
-          description: string
-          ton_price: number
-          item_type: string
-          item_template_id?: string | null
-          duration_days?: number
-          quantity?: number
-          active?: boolean
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          code?: string
-          name?: string
-          description?: string
-          ton_price?: number
-          item_type?: string
-          item_template_id?: string | null
-          duration_days?: number
-          quantity?: number
-          active?: boolean
-          created_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "shop_items_item_template_id_fkey"
-            columns: ["item_template_id"]
-            isOneToOne: false
-            referencedRelation: "item_templates"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
     }
     Views: {
       [_ in never]: never
@@ -859,8 +671,6 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "leader" | "player"
-      item_category: "weapon" | "helmet" | "armor" | "gloves" | "boots"
-      item_rarity: "common" | "uncommon" | "rare" | "epic" | "legendary"
       item_slot: "weapon" | "armor" | "helmet" | "boots" | "accessory" | "relic"
       pack_status: "pending" | "confirmed" | "failed" | "refunded"
     }
@@ -991,8 +801,6 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "leader", "player"],
-      item_category: ["weapon", "helmet", "armor", "gloves", "boots"],
-      item_rarity: ["common", "uncommon", "rare", "epic", "legendary"],
       item_slot: ["weapon", "armor", "helmet", "boots", "accessory", "relic"],
       pack_status: ["pending", "confirmed", "failed", "refunded"],
     },
