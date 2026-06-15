@@ -6,8 +6,8 @@ import type { Database } from '../integrations/supabase/types'
 import { ItemIcon } from '../components/ItemIcon'
 
 const supabase = createClient<Database>(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
+  import.meta.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY
 )
 
 export const Route = createFileRoute('/vip-shop')({
