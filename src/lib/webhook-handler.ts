@@ -1,4 +1,3 @@
-import { createAPIFileRoute } from '@tanstack/react-start/api'
 import { createClient } from '@supabase/supabase-js'
 import type { Database } from '@/integrations/supabase/types'
 
@@ -10,75 +9,78 @@ const TELEGRAM_SECRET_TOKEN = process.env.TELEGRAM_SECRET_TOKEN!
 
 const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 
-export const APIRoute = createAPIFileRoute('/api/public/telegram/webhook')({
-  POST: async ({ request }) => {
-    const secretToken = request.headers.get('X-Telegram-Bot-Api-Secret-Token')
-    if (secretToken !== TELEGRAM_SECRET_TOKEN) {
-      return new Response('Unauthorized', { status: 403 })
+export async function handleTelegramWebhook(request: Request): Promise<Response | null> {
+  const url = new URL(request.url)
+  if (request.method !== 'POST' || url.pathname !== '/api/public/telegram/webhook') {
+    return null
+  }
+
+  const secretToken = request.headers.get('X-Telegram-Bot-Api-Secret-Token')
+  if (secretToken !== TELEGRAM_SECRET_TOKEN) {
+    return new Response('Unauthorized', { status: 403 })
+  }
+
+  const update = await request.json()
+
+  const tgId = update.message?.from?.id || update.callback_query?.from?.id
+  if (tgId) {
+    const { data: banCheck } = await supabase
+      .from('profiles')
+      .select('is_banned')
+      .eq('telegram_id', tgId)
+      .single()
+
+    if (banCheck?.is_banned) {
+      const chatId = update.message?.chat?.id || update.callback_query?.message?.chat?.id
+      if (chatId) await sendTelegramMessage(chatId, "🚫 *ACESSO NEGADO*\n\nSua conta foi banida por violar os termos do jogo.")
+      return new Response('Banned', { status: 200 })
     }
+  }
 
-    const update = await request.json()
+  if (update.message?.text) {
+    const chatId = update.message.chat.id
+    const text = update.message.text
+    const telegramId = update.message.from.id
+    const username = update.message.from.username
+    const displayName = update.message.from.first_name
 
-    const tgId = update.message?.from?.id || update.callback_query?.from?.id
-    if (tgId) {
-      const { data: banCheck } = await supabase
-        .from('profiles')
-        .select('is_banned')
-        .eq('telegram_id', tgId)
-        .single()
-
-      if (banCheck?.is_banned) {
-        const chatId = update.message?.chat?.id || update.callback_query?.message?.chat?.id
-        if (chatId) await sendTelegramMessage(chatId, "🚫 *ACESSO NEGADO*\n\nSua conta foi banida por violar os termos do jogo.")
-        return new Response('Banned', { status: 200 })
-      }
+    if (text === '/start') {
+      return handleStart(chatId, telegramId, username, displayName)
     }
-
-    if (update.message?.text) {
-      const chatId = update.message.chat.id
-      const text = update.message.text
-      const telegramId = update.message.from.id
-      const username = update.message.from.username
-      const displayName = update.message.from.first_name
-
-      if (text === '/start') {
-        return handleStart(chatId, telegramId, username, displayName)
-      }
-      if (text === '/perfil') {
-        return handleProfile(chatId, telegramId)
-      }
-      if (text === '/farm') {
-        return handleFarm(chatId, telegramId)
-      }
-      if (text.startsWith('/atacar')) {
-        const target = text.split(' ')[1]
-        if (!target) return sendTelegramMessage(chatId, "❌ Use: `/atacar @username`", { parse_mode: 'Markdown' })
-        return handleAttack(chatId, telegramId, target)
-      }
+    if (text === '/perfil') {
+      return handleProfile(chatId, telegramId)
     }
-
-    if (update.callback_query) {
-      const data = update.callback_query.data
-      const telegramId = update.callback_query.from.id
-      const chatId = update.callback_query.message.chat.id
-
-      if (data === 'menu_profile') return handleProfile(chatId, telegramId)
-      if (data === 'menu_ranking') return handleRanking(chatId)
-      if (data === 'menu_battle') return sendTelegramMessage(chatId, "⚔️ Digite `/atacar @usuario` para desafiar alguém!")
-      if (data === 'menu_shop' || data === 'menu_inventory') return sendTelegramMessage(chatId, "🏰 Acesse o Mini App para Loja e Inventário!")
-
-      if (data.startsWith('join_nation:')) {
-        const nationCode = data.split(':')[1]
-        return handleNationJoin(chatId, telegramId, nationCode)
-      }
-      if (data === 'defend_invasion') {
-        return sendTelegramMessage(chatId, "🛡️ *ÀS ARMAS!* Abra o Mini App para se juntar à defesa!", { inline_keyboard: [[{ text: "🏰 DEFENDER AGORA", web_app: { url: `${MINI_APP_URL}/invasion` } }]] })
-      }
+    if (text === '/farm') {
+      return handleFarm(chatId, telegramId)
     }
+    if (text.startsWith('/atacar')) {
+      const target = text.split(' ')[1]
+      if (!target) return sendTelegramMessage(chatId, "❌ Use: `/atacar @username`", { parse_mode: 'Markdown' })
+      return handleAttack(chatId, telegramId, target)
+    }
+  }
 
-    return new Response('OK', { status: 200 })
-  },
-})
+  if (update.callback_query) {
+    const data = update.callback_query.data
+    const telegramId = update.callback_query.from.id
+    const chatId = update.callback_query.message.chat.id
+
+    if (data === 'menu_profile') return handleProfile(chatId, telegramId)
+    if (data === 'menu_ranking') return handleRanking(chatId)
+    if (data === 'menu_battle') return sendTelegramMessage(chatId, "⚔️ Digite `/atacar @usuario` para desafiar alguém!")
+    if (data === 'menu_shop' || data === 'menu_inventory') return sendTelegramMessage(chatId, "🏰 Acesse o Mini App para Loja e Inventário!")
+
+    if (data.startsWith('join_nation:')) {
+      const nationCode = data.split(':')[1]
+      return handleNationJoin(chatId, telegramId, nationCode)
+    }
+    if (data === 'defend_invasion') {
+      return sendTelegramMessage(chatId, "🛡️ *ÀS ARMAS!* Abra o Mini App para se juntar à defesa!", { inline_keyboard: [[{ text: "🏰 DEFENDER AGORA", web_app: { url: `${MINI_APP_URL}/invasion` } }]] })
+    }
+  }
+
+  return new Response('OK', { status: 200 })
+}
 
 async function handleStart(chatId: number, telegramId: number, username: string, displayName: string) {
   let { data: profile } = await supabase
