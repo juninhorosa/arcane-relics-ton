@@ -68,26 +68,22 @@ export const ItemIcon: React.FC<ItemIconProps> = ({ slot, itemClass, isRelic, cl
             strokeLinecap="round"
           />
         );
-      case 'accessory':
-      case 'relic':
+      case 'gloves':
         return (
           <g>
-            <circle 
-              cx="50" cy="50" r={isRelic ? "35" : "25"} 
-              fill="none" 
-              stroke={primaryColor} 
-              strokeWidth={strokeWidth} 
+            <path
+              d="M20 40 Q20 20 40 20 L60 20 Q80 20 80 40 L80 70 Q80 85 60 85 L40 85 Q20 85 20 70 Z"
+              fill="none"
+              stroke={primaryColor}
+              strokeWidth={strokeWidth}
+              strokeLinejoin="round"
             />
-            <path 
-              d="M50 35 L50 65 M35 50 L65 50" 
-              stroke={isRelic ? colors.blood : colors.dark} 
-              strokeWidth="2" 
+            <path
+              d="M35 20 L35 45 M50 20 L50 45 M65 20 L65 45"
+              stroke={primaryColor}
+              strokeWidth={strokeWidth}
+              strokeLinecap="round"
             />
-            {isMythic && (
-              <circle cx="50" cy="50" r="45" stroke={colors.gold} strokeWidth="1" strokeDasharray="4 4" opacity="0.4">
-                <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="12s" repeatCount="indefinite" />
-              </circle>
-            )}
           </g>
         );
       default:

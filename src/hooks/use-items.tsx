@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import type { Database } from '../integrations/supabase/types'
 import type { Item, PlayerInventoryItem, EquippedItems, ItemCategory, SetBonus } from '../lib/items-system'
-import { calculateSetBonus, CATEGORY_ORDER, SET_NAMES } from '../lib/items-system'
+import { calculateSetBonus, CATEGORY_ORDER, getSetName } from '../lib/items-system'
 
 const supabase = createClient<Database>(
   import.meta.env.VITE_SUPABASE_URL,
@@ -173,7 +173,7 @@ export function useSetBonus(equippedItems: EquippedItems) {
 
     setSetInfo({
       setId,
-      setName: SET_NAMES[setId] || setId,
+      setName: getSetName(setId),
       equippedCount: items.length,
       totalNeeded: 5,
       bonusPercent: items.length === 5 ? bonusPercent : 0,

@@ -94,7 +94,7 @@ function VipShop() {
             
             {item.item_type === 'consumable' && item.item_template_id && (
               <div className="flex justify-center mb-4 relative z-10">
-                <ItemIcon slot="accessory" itemClass={10} size={64} /> {/* Ícone genérico para consumível */}
+                <ItemIcon slot="armor" itemClass={10} size={64} /> {/* Ícone genérico para consumível */}
               </div>
             )}
 

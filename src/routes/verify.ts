@@ -39,18 +39,18 @@ export const APIRoute = createAPIFileRoute('/api/purchases/verify')({
         const pack = purchase.packs as any;
         // A. Sortear item da classe do pack
         const { data: templates } = await supabase
-          .from('item_templates')
+          .from('items')
           .select('id')
-          .eq('class', pack.item_class);
+          .eq('class_id', pack.item_class);
         
         const randomTemplate = templates ? templates[Math.floor(Math.random() * templates.length)] : null;
 
         // B. Adicionar Item ao Inventário
         if (randomTemplate) {
           updates.push(
-            supabase.from('inventory').insert({
+            supabase.from('player_inventory').insert({
               player_id: player.id,
-              template_id: randomTemplate.id,
+              item_id: randomTemplate.id,
               quantity: 1
             }).select().single()
           );
@@ -95,9 +95,9 @@ export const APIRoute = createAPIFileRoute('/api/purchases/verify')({
           rewardMessage = `Status VIP ativado por ${shopItem.duration_days} dias!`;
         } else if (shopItem.item_type === 'consumable' && shopItem.item_template_id) {
           updates.push(
-            supabase.from('inventory').insert({
+            supabase.from('player_inventory').insert({
               player_id: player.id,
-              template_id: shopItem.item_template_id,
+              item_id: shopItem.item_template_id,
               quantity: shopItem.quantity
             }).select().single()
           );
