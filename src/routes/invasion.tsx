@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-start'
+import { createFileRoute } from '@tanstack/react-router'
 import { createClient } from '@supabase/supabase-js'
 import { useEffect, useState } from 'react'
 import { Battlefield3D } from '../components/Battlefield3D'
@@ -30,7 +30,7 @@ function InvasionScreen() {
       const { data } = await supabase
         .from('active_invasions' as any)
         .select('*, nations:target_nation_id(name, code)')
-        .eq('status', 'active') // Busca a invasão global ativa
+        .eq('status', 'active') // Busca a invasÃ£o global ativa
         .single()
 
       if (data) setInvasion(data)
@@ -110,12 +110,12 @@ function InvasionScreen() {
     finally { setAttacking(false) }
   }
 
-  if (loading) return <div className="min-h-screen bg-void-slate flex items-center justify-center font-cinzel text-arcane-gold">Rastreando exércitos...</div>
+  if (loading) return <div className="min-h-screen bg-void-slate flex items-center justify-center font-cinzel text-arcane-gold">Rastreando exÃ©rcitos...</div>
   if (!invasion) return (
     <div className="min-h-screen bg-void-slate flex flex-col items-center justify-center p-8 text-center text-white">
-      <div className="text-6xl mb-4">🕊️</div>
+      <div className="text-6xl mb-4">ðŸ•Šï¸</div>
       <h1 className="text-2xl font-black font-cinzel text-arcane-gold mb-2">Paz no Horizonte</h1>
-      <p className="text-slate-400">Nenhuma nação está sob ataque no momento.</p>
+      <p className="text-slate-400">Nenhuma naÃ§Ã£o estÃ¡ sob ataque no momento.</p>
     </div>
   )
 
@@ -129,7 +129,7 @@ function InvasionScreen() {
           "inline-block px-6 py-1 rounded-full text-xs font-black uppercase tracking-widest mb-2",
           phase === 'prep' ? "bg-blue-600 animate-pulse" : "bg-red-600 shadow-[0_0_15px_rgba(220,38,38,0.5)]"
         )}>
-          {phase === 'prep' ? '⚠️ PREPARAÇÃO PARA ATAQUE' : '⚔️ FASE DE DESTRUIÇÃO'}
+          {phase === 'prep' ? 'âš ï¸ PREPARAÃ‡ÃƒO PARA ATAQUE' : 'âš”ï¸ FASE DE DESTRUIÃ‡ÃƒO'}
         </div>
         <h1 className="text-3xl font-black font-cinzel text-white">
           CERCO A {invasion.nations.name.toUpperCase()}
@@ -155,7 +155,7 @@ function InvasionScreen() {
       {/* Lista de Defensores (Barreira Humana) */}
       <div className="w-full max-w-sm px-4 mb-6">
         <h3 className="text-[10px] font-bold text-blue-400 uppercase mb-2 tracking-widest">
-          🛡️ Linha de Defesa ({defenders.length})
+          ðŸ›¡ï¸ Linha de Defesa ({defenders.length})
         </h3>
         <div className="flex gap-2 overflow-x-auto pb-2">
           {defenders.map(d => (
@@ -166,14 +166,14 @@ function InvasionScreen() {
               </div>
             </div>
           ))}
-          {defenders.length === 0 && <div className="text-[10px] text-slate-600 italic font-cinzel">Defesas rompidas! Relíquia exposta!</div>}
+          {defenders.length === 0 && <div className="text-[10px] text-slate-600 italic font-cinzel">Defesas rompidas! RelÃ­quia exposta!</div>}
         </div>
       </div>
 
       {/* Relic Health Bar */}
       <div className="w-full max-w-sm px-4 mb-8">
         <div className="flex justify-between text-[10px] font-bold text-slate-500 mb-1">
-          <span>INTEGRIDADE DA RELÍQUIA</span>
+          <span>INTEGRIDADE DA RELÃQUIA</span>
           <span className="text-white">{Math.floor(invasion.relic_health).toLocaleString()} HP</span>
         </div>
         <div className="h-4 w-full bg-slate-900 rounded-full border border-slate-700 p-0.5 overflow-hidden">
@@ -196,14 +196,14 @@ function InvasionScreen() {
               : "bg-slate-800 opacity-50 cursor-not-allowed"
           )}
         >
-          {phase === 'prep' ? 'Aguarde Início...' : attacking ? 'GOLPEANDO...' : '⚔️ ATACAR RELÍQUIA'}
+          {phase === 'prep' ? 'Aguarde InÃ­cio...' : attacking ? 'GOLPEANDO...' : 'âš”ï¸ ATACAR RELÃQUIA'}
         </button>
         
         <div className="bg-slate-900/60 border border-white/5 p-4 rounded-xl text-center">
           <p className="text-[10px] text-slate-500 uppercase leading-relaxed">
             {phase === 'prep' 
-              ? "Invasores estão se posicionando. Defensores, reúnam seus exércitos agora!" 
-              : "A Relíquia está vulnerável! Todos os atacantes devem focar o dano. Defensores, tentem expulsar os invasores!"}
+              ? "Invasores estÃ£o se posicionando. Defensores, reÃºnam seus exÃ©rcitos agora!" 
+              : "A RelÃ­quia estÃ¡ vulnerÃ¡vel! Todos os atacantes devem focar o dano. Defensores, tentem expulsar os invasores!"}
           </p>
         </div>
       </div>

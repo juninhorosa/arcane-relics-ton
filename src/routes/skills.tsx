@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-start'
+import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import { SkillTree, SkillCard, SkillDisplay } from '../components/SkillCard'
@@ -84,10 +84,10 @@ function SkillsPage() {
       {/* Header */}
       <div className="border-b border-arcane-gold/20 px-4 py-6 sticky top-0 z-10 bg-void-slate">
         <h1 className="text-3xl font-black font-cinzel text-arcane-gold uppercase tracking-tighter mb-2">
-          🗡️ Skill Tree
+          ðŸ—¡ï¸ Skill Tree
         </h1>
         <p className="text-slate-400 text-sm mb-4">
-          {player.character_classes?.name} • Nível {player.level}
+          {player.character_classes?.name} â€¢ NÃ­vel {player.level}
         </p>
 
         {/* Stats Bar */}
@@ -97,7 +97,7 @@ function SkillsPage() {
             <p className="font-bold text-arcane-gold">{stats.skillsLearned}</p>
           </div>
           <div className="bg-slate-900 border border-slate-700 p-2 rounded">
-            <p className="text-slate-400">Nível Médio</p>
+            <p className="text-slate-400">NÃ­vel MÃ©dio</p>
             <p className="font-bold text-arcane-gold">{stats.averageLevel}</p>
           </div>
           <div className="bg-slate-900 border border-slate-700 p-2 rounded">
@@ -105,7 +105,7 @@ function SkillsPage() {
             <p className="font-bold text-arcane-gold">{stats.skillPointsUsed}</p>
           </div>
           <div className="bg-slate-900 border border-slate-700 p-2 rounded">
-            <p className="text-slate-400">Disponíveis</p>
+            <p className="text-slate-400">DisponÃ­veis</p>
             <p className="font-bold text-emerald-400">{learnableSkills.length}</p>
           </div>
         </div>
@@ -114,9 +114,9 @@ function SkillsPage() {
       {/* Tabs */}
       <div className="flex gap-2 px-4 py-4 border-b border-slate-700 sticky top-24 z-10 bg-void-slate">
         {[
-          { id: 'tree', label: '🌳 Árvore de Skills' },
-          { id: 'learned', label: `✨ Aprendidas (${learnedSkills.length})` },
-          { id: 'available', label: `🎁 Disponíveis (${learnableSkills.length})` }
+          { id: 'tree', label: 'ðŸŒ³ Ãrvore de Skills' },
+          { id: 'learned', label: `âœ¨ Aprendidas (${learnedSkills.length})` },
+          { id: 'available', label: `ðŸŽ DisponÃ­veis (${learnableSkills.length})` }
         ].map(t => (
           <button
             key={t.id}
@@ -147,7 +147,7 @@ function SkillsPage() {
             {/* Selected Skill */}
             {selectedSkill && (
               <div className="sticky top-32">
-                <h3 className="font-bold text-arcane-gold mb-3">📋 Detalhes</h3>
+                <h3 className="font-bold text-arcane-gold mb-3">ðŸ“‹ Detalhes</h3>
                 <SkillDisplay
                   skill={selectedSkill}
                   skillLevel={playerSkills.get(selectedSkill.code) || 0}
@@ -159,7 +159,7 @@ function SkillsPage() {
 
         {tab === 'learned' && (
           <div>
-            <h2 className="text-xl font-bold text-arcane-gold mb-4">✨ Skills Aprendidas</h2>
+            <h2 className="text-xl font-bold text-arcane-gold mb-4">âœ¨ Skills Aprendidas</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {learnedSkills.map(skill => (
                 <div
@@ -181,8 +181,8 @@ function SkillsPage() {
 
             {learnedSkills.length === 0 && (
               <div className="text-center py-8">
-                <p className="text-slate-400">Você ainda não aprendeu nenhuma skill</p>
-                <p className="text-slate-500 text-sm">Vá para "Disponíveis" para aprender</p>
+                <p className="text-slate-400">VocÃª ainda nÃ£o aprendeu nenhuma skill</p>
+                <p className="text-slate-500 text-sm">VÃ¡ para "DisponÃ­veis" para aprender</p>
               </div>
             )}
           </div>
@@ -190,7 +190,7 @@ function SkillsPage() {
 
         {tab === 'available' && (
           <div>
-            <h2 className="text-xl font-bold text-arcane-gold mb-4">🎁 Skills Disponíveis</h2>
+            <h2 className="text-xl font-bold text-arcane-gold mb-4">ðŸŽ Skills DisponÃ­veis</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {learnableSkills.map(skill => (
                 <SkillCard
@@ -209,7 +209,7 @@ function SkillsPage() {
 
             {learnableSkills.length === 0 && (
               <div className="text-center py-8">
-                <p className="text-slate-400">Nenhuma skill disponível no seu nível</p>
+                <p className="text-slate-400">Nenhuma skill disponÃ­vel no seu nÃ­vel</p>
                 <p className="text-slate-500 text-sm">Continue evoluindo para desbloquear novas!</p>
               </div>
             )}
@@ -219,10 +219,10 @@ function SkillsPage() {
 
       {/* Legend */}
       <div className="px-4 py-6 border-t border-slate-700 text-xs text-slate-400 space-y-1">
-        <p>💫 <strong>Passiva:</strong> Sempre ativa em combate</p>
-        <p>⚔️ <strong>Ativa:</strong> Pode ser ativada em combate</p>
-        <p>🛡️ <strong>Buff:</strong> Aumenta stats temporariamente</p>
-        <p>💢 <strong>Debuff:</strong> Diminui stats do inimigo</p>
+        <p>ðŸ’« <strong>Passiva:</strong> Sempre ativa em combate</p>
+        <p>âš”ï¸ <strong>Ativa:</strong> Pode ser ativada em combate</p>
+        <p>ðŸ›¡ï¸ <strong>Buff:</strong> Aumenta stats temporariamente</p>
+        <p>ðŸ’¢ <strong>Debuff:</strong> Diminui stats do inimigo</p>
       </div>
     </div>
   )

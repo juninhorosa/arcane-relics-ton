@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-start'
+import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import { ClassSelector } from '../components/ClassSelector'
@@ -47,7 +47,7 @@ function SelectClass() {
 
   const handleSelectClass = async (classCode: CharacterClassCode) => {
     if (!playerId) {
-      setMessage('Erro: Jogador não encontrado')
+      setMessage('Erro: Jogador nÃ£o encontrado')
       return
     }
 
@@ -63,7 +63,7 @@ function SelectClass() {
         .single()
 
       if (classErr || !classData) {
-        setMessage('Erro: Classe não encontrada')
+        setMessage('Erro: Classe nÃ£o encontrada')
         return
       }
 
@@ -80,14 +80,14 @@ function SelectClass() {
 
       setCurrentClass(classCode)
       setSelectedClass(classCode)
-      setMessage(`✅ Classe ${classCode} selecionada com sucesso!`)
+      setMessage(`âœ… Classe ${classCode} selecionada com sucesso!`)
 
-      // Redirecionar após sucesso
+      // Redirecionar apÃ³s sucesso
       setTimeout(() => {
         window.location.href = '/'
       }, 1500)
     } catch (error) {
-      setMessage('Erro ao processar solicitação')
+      setMessage('Erro ao processar solicitaÃ§Ã£o')
       console.error(error)
     } finally {
       setLoading(false)
@@ -98,7 +98,7 @@ function SelectClass() {
     return (
       <div className="min-h-screen bg-void-slate text-white p-6 flex flex-col items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-black text-arcane-gold font-cinzel mb-4">⚠️ Erro</h1>
+          <h1 className="text-2xl font-black text-arcane-gold font-cinzel mb-4">âš ï¸ Erro</h1>
           <p className="text-slate-400">Abrindo no Telegram WebApp...</p>
         </div>
       </div>
@@ -115,7 +115,7 @@ function SelectClass() {
         <p className="text-slate-400 text-sm">
           {currentClass 
             ? `Classe atual: ${currentClass.toUpperCase()}` 
-            : 'Selecione o seu arquétipo de herói'}
+            : 'Selecione o seu arquÃ©tipo de herÃ³i'}
         </p>
       </div>
 
@@ -132,7 +132,7 @@ function SelectClass() {
       {/* Message */}
       {message && (
         <div className={`px-4 py-2 text-center text-sm font-bold ${
-          message.includes('✅') ? 'text-emerald-400' : 'text-red-400'
+          message.includes('âœ…') ? 'text-emerald-400' : 'text-red-400'
         }`}>
           {message}
         </div>
@@ -142,7 +142,7 @@ function SelectClass() {
       {loading && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-slate-900 border border-arcane-gold p-6 rounded-lg text-center">
-            <p className="text-arcane-gold font-bold mb-2">⚙️ Processando...</p>
+            <p className="text-arcane-gold font-bold mb-2">âš™ï¸ Processando...</p>
             <p className="text-slate-400 text-sm">Selecionando sua classe</p>
           </div>
         </div>
@@ -151,12 +151,12 @@ function SelectClass() {
       {/* Info Box */}
       <div className="px-4 py-6">
         <div className="bg-slate-900 border border-arcane-gold/20 rounded-lg p-4">
-          <h3 className="font-bold text-arcane-gold mb-2">💡 Dica</h3>
+          <h3 className="font-bold text-arcane-gold mb-2">ðŸ’¡ Dica</h3>
           <p className="text-sm text-slate-300">
-            Cada classe tem atributos únicos e habilidades especiais. Escolha aquela que melhor combina com seu estilo de jogo!
+            Cada classe tem atributos Ãºnicos e habilidades especiais. Escolha aquela que melhor combina com seu estilo de jogo!
           </p>
           <p className="text-xs text-slate-500 mt-2 italic">
-            Você pode mudar de classe mais tarde visitando o Templo de Transformação
+            VocÃª pode mudar de classe mais tarde visitando o Templo de TransformaÃ§Ã£o
           </p>
         </div>
       </div>

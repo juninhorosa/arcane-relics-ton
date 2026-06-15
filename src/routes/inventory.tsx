@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-start'
+import { createFileRoute } from '@tanstack/react-router'
 import { useState, useCallback } from 'react'
 import { InventoryGrid } from '../components/ItemCard'
 import { usePlayerInventory, useEquippedItems, useSetBonus } from '../hooks/use-items'
@@ -52,13 +52,13 @@ function Inventory() {
     <div className="min-h-screen bg-void-slate text-white pb-24">
       <div className="border-b border-arcane-gold/20 px-4 py-6 sticky top-0 z-10 bg-void-slate">
         <h1 className="text-3xl font-black font-cinzel text-arcane-gold uppercase tracking-tighter mb-4">
-          🎒 Inventário
+          ðŸŽ’ InventÃ¡rio
         </h1>
 
         <div className="flex gap-2 mb-4">
           {[
-            { id: 'inventory', label: '🎒 Itens' },
-            { id: 'equipment', label: '⚔️ Equipamento' }
+            { id: 'inventory', label: 'ðŸŽ’ Itens' },
+            { id: 'equipment', label: 'âš”ï¸ Equipamento' }
           ].map(t => (
             <button
               key={t.id}
@@ -77,12 +77,12 @@ function Inventory() {
         {setInfo && (
           <div className={`p-3 rounded-lg text-xs mb-4 ${setInfo.isComplete ? 'bg-arcane-gold/20 border border-arcane-gold/50' : 'bg-slate-900 border border-slate-700'}`}>
             <p className="font-bold text-arcane-gold mb-1">
-              🏆 {setInfo.setName}
+              ðŸ† {setInfo.setName}
             </p>
             <p className="text-slate-300">
               {setInfo.equippedCount}/{setInfo.totalNeeded} equipados
-              {setInfo.isComplete && ' ✅ Bônus completo!'}
-              {!setInfo.isComplete && ` — Faltam ${setInfo.totalNeeded - setInfo.equippedCount}`}
+              {setInfo.isComplete && ' âœ… BÃ´nus completo!'}
+              {!setInfo.isComplete && ` â€” Faltam ${setInfo.totalNeeded - setInfo.equippedCount}`}
             </p>
             {setInfo.isComplete && (
               <p className="text-emerald-400 font-bold mt-1">+{setInfo.bonusPercent}% em todos os atributos</p>
@@ -96,7 +96,7 @@ function Inventory() {
             <p className="font-bold text-arcane-gold">{power}</p>
           </div>
           <div className="bg-slate-900 border border-slate-700 p-2 rounded text-center">
-            <p className="text-slate-400">HP Máx</p>
+            <p className="text-slate-400">HP MÃ¡x</p>
             <p className="font-bold text-green-400">{maxHp}</p>
           </div>
           <div className="bg-slate-900 border border-slate-700 p-2 rounded text-center">
@@ -141,21 +141,21 @@ function Inventory() {
 
       {tab === 'equipment' && (
         <div className="p-4">
-          <h2 className="text-lg font-bold text-arcane-gold mb-4">⚔️ Equipamento Atual</h2>
+          <h2 className="text-lg font-bold text-arcane-gold mb-4">âš”ï¸ Equipamento Atual</h2>
           <div className="grid grid-cols-2 gap-3">
             {Object.entries(equipped).map(([slot, item]) => {
               const slotNames: Record<string, string> = {
                 weapon: 'Arma', helmet: 'Capacete', armor: 'Armadura', gloves: 'Luvas', boots: 'Botas'
               }
               const slotIcons: Record<string, string> = {
-                weapon: '⚔️', helmet: '🪖', armor: '🛡️', gloves: '🧤', boots: '👢'
+                weapon: 'âš”ï¸', helmet: 'ðŸª–', armor: 'ðŸ›¡ï¸', gloves: 'ðŸ§¤', boots: 'ðŸ‘¢'
               }
               return (
                 <div
                   key={slot}
                   className="relative overflow-hidden bg-slate-800 border border-slate-700 rounded-xl p-3 flex flex-col items-center text-center"
                 >
-                  <span className="text-2xl mb-1">{slotIcons[slot] || '📦'}</span>
+                  <span className="text-2xl mb-1">{slotIcons[slot] || 'ðŸ“¦'}</span>
                   {item ? (
                     <>
                       <p className="text-xs font-bold text-yellow-500 line-clamp-1">{item.name}</p>

@@ -9,95 +9,83 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as EquipmentRouteImport } from './routes/equipment'
-import { Route as GuildChatRouteImport } from './routes/guild-chat'
-import { Route as InvasionRouteImport } from './routes/invasion'
-import { Route as InventoryRouteImport } from './routes/inventory'
-import { Route as MapSelectionRouteImport } from './routes/map-selection'
-import { Route as RankingRouteImport } from './routes/ranking'
-import { Route as SelectClassRouteImport } from './routes/select-class'
-import { Route as SelectNationRouteImport } from './routes/select-nation'
-import { Route as ShopRouteImport } from './routes/shop'
-import { Route as SkillsRouteImport } from './routes/skills'
-import { Route as VipShopRouteImport } from './routes/vip-shop'
 import { Route as WorldBossRouteImport } from './routes/world-boss'
+import { Route as VipShopRouteImport } from './routes/vip-shop'
+import { Route as SkillsRouteImport } from './routes/skills'
+import { Route as ShopRouteImport } from './routes/shop'
+import { Route as SelectNationRouteImport } from './routes/select-nation'
+import { Route as SelectClassRouteImport } from './routes/select-class'
+import { Route as RankingRouteImport } from './routes/ranking'
+import { Route as MapSelectionRouteImport } from './routes/map-selection'
+import { Route as InventoryRouteImport } from './routes/inventory'
+import { Route as InvasionRouteImport } from './routes/invasion'
+import { Route as GuildChatRouteImport } from './routes/guild-chat'
+import { Route as EquipmentRouteImport } from './routes/equipment'
+import { Route as IndexRouteImport } from './routes/index'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const WorldBossRoute = WorldBossRouteImport.update({
+  id: '/world-boss',
+  path: '/world-boss',
   getParentRoute: () => rootRouteImport,
 } as any)
-
-const EquipmentRoute = EquipmentRouteImport.update({
-  id: '/equipment',
-  path: '/equipment',
-  getParentRoute: () => rootRouteImport,
-} as any)
-
-const GuildChatRoute = GuildChatRouteImport.update({
-  id: '/guild-chat',
-  path: '/guild-chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
-
-const InvasionRoute = InvasionRouteImport.update({
-  id: '/invasion',
-  path: '/invasion',
-  getParentRoute: () => rootRouteImport,
-} as any)
-
-const InventoryRoute = InventoryRouteImport.update({
-  id: '/inventory',
-  path: '/inventory',
-  getParentRoute: () => rootRouteImport,
-} as any)
-
-const MapSelectionRoute = MapSelectionRouteImport.update({
-  id: '/map-selection',
-  path: '/map-selection',
-  getParentRoute: () => rootRouteImport,
-} as any)
-
-const RankingRoute = RankingRouteImport.update({
-  id: '/ranking',
-  path: '/ranking',
-  getParentRoute: () => rootRouteImport,
-} as any)
-
-const SelectClassRoute = SelectClassRouteImport.update({
-  id: '/select-class',
-  path: '/select-class',
-  getParentRoute: () => rootRouteImport,
-} as any)
-
-const SelectNationRoute = SelectNationRouteImport.update({
-  id: '/select-nation',
-  path: '/select-nation',
-  getParentRoute: () => rootRouteImport,
-} as any)
-
-const ShopRoute = ShopRouteImport.update({
-  id: '/shop',
-  path: '/shop',
-  getParentRoute: () => rootRouteImport,
-} as any)
-
-const SkillsRoute = SkillsRouteImport.update({
-  id: '/skills',
-  path: '/skills',
-  getParentRoute: () => rootRouteImport,
-} as any)
-
 const VipShopRoute = VipShopRouteImport.update({
   id: '/vip-shop',
   path: '/vip-shop',
   getParentRoute: () => rootRouteImport,
 } as any)
-
-const WorldBossRoute = WorldBossRouteImport.update({
-  id: '/world-boss',
-  path: '/world-boss',
+const SkillsRoute = SkillsRouteImport.update({
+  id: '/skills',
+  path: '/skills',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopRoute = ShopRouteImport.update({
+  id: '/shop',
+  path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SelectNationRoute = SelectNationRouteImport.update({
+  id: '/select-nation',
+  path: '/select-nation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SelectClassRoute = SelectClassRouteImport.update({
+  id: '/select-class',
+  path: '/select-class',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RankingRoute = RankingRouteImport.update({
+  id: '/ranking',
+  path: '/ranking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapSelectionRoute = MapSelectionRouteImport.update({
+  id: '/map-selection',
+  path: '/map-selection',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InventoryRoute = InventoryRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvasionRoute = InvasionRouteImport.update({
+  id: '/invasion',
+  path: '/invasion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuildChatRoute = GuildChatRouteImport.update({
+  id: '/guild-chat',
+  path: '/guild-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EquipmentRoute = EquipmentRouteImport.update({
+  id: '/equipment',
+  path: '/equipment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -116,7 +104,6 @@ export interface FileRoutesByFullPath {
   '/vip-shop': typeof VipShopRoute
   '/world-boss': typeof WorldBossRoute
 }
-
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/equipment': typeof EquipmentRoute
@@ -132,7 +119,6 @@ export interface FileRoutesByTo {
   '/vip-shop': typeof VipShopRoute
   '/world-boss': typeof WorldBossRoute
 }
-
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
@@ -149,7 +135,6 @@ export interface FileRoutesById {
   '/vip-shop': typeof VipShopRoute
   '/world-boss': typeof WorldBossRoute
 }
-
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
@@ -198,7 +183,6 @@ export interface FileRouteTypes {
     | '/world-boss'
   fileRoutesById: FileRoutesById
 }
-
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   EquipmentRoute: typeof EquipmentRoute
@@ -217,81 +201,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/equipment': {
-      id: '/equipment'
-      path: '/equipment'
-      fullPath: '/equipment'
-      preLoaderRoute: typeof EquipmentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/guild-chat': {
-      id: '/guild-chat'
-      path: '/guild-chat'
-      fullPath: '/guild-chat'
-      preLoaderRoute: typeof GuildChatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/invasion': {
-      id: '/invasion'
-      path: '/invasion'
-      fullPath: '/invasion'
-      preLoaderRoute: typeof InvasionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/inventory': {
-      id: '/inventory'
-      path: '/inventory'
-      fullPath: '/inventory'
-      preLoaderRoute: typeof InventoryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/map-selection': {
-      id: '/map-selection'
-      path: '/map-selection'
-      fullPath: '/map-selection'
-      preLoaderRoute: typeof MapSelectionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ranking': {
-      id: '/ranking'
-      path: '/ranking'
-      fullPath: '/ranking'
-      preLoaderRoute: typeof RankingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/select-class': {
-      id: '/select-class'
-      path: '/select-class'
-      fullPath: '/select-class'
-      preLoaderRoute: typeof SelectClassRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/select-nation': {
-      id: '/select-nation'
-      path: '/select-nation'
-      fullPath: '/select-nation'
-      preLoaderRoute: typeof SelectNationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/shop': {
-      id: '/shop'
-      path: '/shop'
-      fullPath: '/shop'
-      preLoaderRoute: typeof ShopRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/skills': {
-      id: '/skills'
-      path: '/skills'
-      fullPath: '/skills'
-      preLoaderRoute: typeof SkillsRouteImport
+    '/world-boss': {
+      id: '/world-boss'
+      path: '/world-boss'
+      fullPath: '/world-boss'
+      preLoaderRoute: typeof WorldBossRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/vip-shop': {
@@ -301,11 +215,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VipShopRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/world-boss': {
-      id: '/world-boss'
-      path: '/world-boss'
-      fullPath: '/world-boss'
-      preLoaderRoute: typeof WorldBossRouteImport
+    '/skills': {
+      id: '/skills'
+      path: '/skills'
+      fullPath: '/skills'
+      preLoaderRoute: typeof SkillsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/select-nation': {
+      id: '/select-nation'
+      path: '/select-nation'
+      fullPath: '/select-nation'
+      preLoaderRoute: typeof SelectNationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/select-class': {
+      id: '/select-class'
+      path: '/select-class'
+      fullPath: '/select-class'
+      preLoaderRoute: typeof SelectClassRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ranking': {
+      id: '/ranking'
+      path: '/ranking'
+      fullPath: '/ranking'
+      preLoaderRoute: typeof RankingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/map-selection': {
+      id: '/map-selection'
+      path: '/map-selection'
+      fullPath: '/map-selection'
+      preLoaderRoute: typeof MapSelectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inventory': {
+      id: '/inventory'
+      path: '/inventory'
+      fullPath: '/inventory'
+      preLoaderRoute: typeof InventoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/invasion': {
+      id: '/invasion'
+      path: '/invasion'
+      fullPath: '/invasion'
+      preLoaderRoute: typeof InvasionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guild-chat': {
+      id: '/guild-chat'
+      path: '/guild-chat'
+      fullPath: '/guild-chat'
+      preLoaderRoute: typeof GuildChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/equipment': {
+      id: '/equipment'
+      path: '/equipment'
+      fullPath: '/equipment'
+      preLoaderRoute: typeof EquipmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -326,7 +310,16 @@ const rootRouteChildren: RootRouteChildren = {
   VipShopRoute: VipShopRoute,
   WorldBossRoute: WorldBossRoute,
 }
-
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-start'
+import { createFileRoute } from '@tanstack/react-router'
 import { useTonConnectUI, TonConnectButton } from '@tonconnect/ui-react'
 import { useState, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
@@ -61,7 +61,7 @@ function VipShop() {
 
       await tonConnectUI.sendTransaction(transaction)
       
-      alert('Transação enviada! Assim que for confirmada na rede, seus benefícios/itens aparecerão.')
+      alert('TransaÃ§Ã£o enviada! Assim que for confirmada na rede, seus benefÃ­cios/itens aparecerÃ£o.')
     } catch (error: any) {
       console.error(error)
       alert(`Erro: ${error.message}`)
@@ -94,7 +94,7 @@ function VipShop() {
             
             {item.item_type === 'consumable' && item.item_template_id && (
               <div className="flex justify-center mb-4 relative z-10">
-                <ItemIcon slot="armor" itemClass={10} size={64} /> {/* Ícone genérico para consumível */}
+                <ItemIcon slot="armor" itemClass={10} size={64} /> {/* Ãcone genÃ©rico para consumÃ­vel */}
               </div>
             )}
 

@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-start'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { createClient } from '@supabase/supabase-js'
 import { useEffect, useState, useRef } from 'react'
 import { NationCrest } from '../components/NationCrest'
@@ -33,7 +33,7 @@ function Home() {
       const tgUser = (window as any).Telegram?.WebApp?.initDataUnsafe?.user
       if (!tgUser) return
 
-      // Timer para Proteção Divina
+      // Timer para ProteÃ§Ã£o Divina
       const updateProtectionTimer = (until: string | null) => {
         if (!until) {
           setProtectionTime(null)
@@ -61,10 +61,10 @@ function Home() {
         .eq('telegram_id', tgUser.id)
         .single()
 
-      // Carregar Territórios (Guerra de Guildas)
+      // Carregar TerritÃ³rios (Guerra de Guildas)
       const { data: terr } = await supabase.from('territories' as any).select('*, guilds(name)')
 
-      // Carregar Invasão Ativa
+      // Carregar InvasÃ£o Ativa
       const { data: activeInvasion } = await supabase
         .from('active_invasions' as any)
         .select('id, target_nation_id, nations(name)')
@@ -75,14 +75,14 @@ function Home() {
       if (playerData) {
         setPlayer(playerData)
         
-        // Buscar Poder e Max HP via RPC para consistência (Fase 11.9)
+        // Buscar Poder e Max HP via RPC para consistÃªncia (Fase 11.9)
         const { data: pwr } = await supabase.rpc('calculate_player_power', { p_player_id: playerData.id, p_level: playerData.level, p_is_vip: playerData.is_vip })
         const { data: mHp } = await supabase.rpc('get_player_max_hp', { p_player_id: playerData.id })
         
         if (pwr) setPower(pwr)
         if (mHp) setMaxHp(mHp)
 
-        // Buscar Itens Lendários da Nação
+        // Buscar Itens LendÃ¡rios da NaÃ§Ã£o
         const { data: relics } = await supabase
           .from('player_inventory')
           .select('items(name, attack_bonus, defense_bonus)')
@@ -102,7 +102,7 @@ function Home() {
         if (report && (report.hours > 0.1 || report.died)) {
           setOfflineReport(report);
           if (report.died) {
-            // Trigger para notificação do bot (Opcional: chamar uma API aqui)
+            // Trigger para notificaÃ§Ã£o do bot (Opcional: chamar uma API aqui)
           }
         }
       }
@@ -113,7 +113,7 @@ function Home() {
     loadHero()
   }, [])
 
-  // Listener Global para Proteção Divina (Efeito Sonoro 11.6)
+  // Listener Global para ProteÃ§Ã£o Divina (Efeito Sonoro 11.6)
   useEffect(() => {
     const sacredBell = new Audio('/sounds/sacred-bell.mp3');
     sacredBell.volume = 0.5;
@@ -126,11 +126,11 @@ function Home() {
         (payload: any) => {
           const until = payload.new.divine_protection_until;
           
-          // Verifica se a proteção foi ativada agora (data futura)
+          // Verifica se a proteÃ§Ã£o foi ativada agora (data futura)
           if (until && new Date(until) > new Date()) {
             sacredBell.play().catch(e => {
-              // Navegadores bloqueiam áudio sem interação prévia
-              console.log("Áudio aguardando interação do usuário:", e);
+              // Navegadores bloqueiam Ã¡udio sem interaÃ§Ã£o prÃ©via
+              console.log("Ãudio aguardando interaÃ§Ã£o do usuÃ¡rio:", e);
             });
           }
         }
@@ -152,8 +152,8 @@ function Home() {
   // Redirecionamento Inteligente (Fase 11.8)
   if (!player || player.level < 5 || !player.nation_id) {
     const title = !player ? "Estranho detectado" : player.level < 5 ? "Mapa de Treinamento" : "Jure Lealdade";
-    const message = !player ? "Você ainda não possui um perfil. Volte ao bot para começar." : player.level < 5 ? `Alcance o nível 5 caçando monstros iniciais para escolher uma nação. (Nível atual: ${player.level})` : "Você alcançou o nível 5! Escolha sua nação para continuar sua jornada.";
-    const buttonText = !player || player.level < 5 ? "Voltar ao Bot" : "Escolher Nação";
+    const message = !player ? "VocÃª ainda nÃ£o possui um perfil. Volte ao bot para comeÃ§ar." : player.level < 5 ? `Alcance o nÃ­vel 5 caÃ§ando monstros iniciais para escolher uma naÃ§Ã£o. (NÃ­vel atual: ${player.level})` : "VocÃª alcanÃ§ou o nÃ­vel 5! Escolha sua naÃ§Ã£o para continuar sua jornada.";
+    const buttonText = !player || player.level < 5 ? "Voltar ao Bot" : "Escolher NaÃ§Ã£o";
     const buttonLink = !player || player.level < 5 ? `https://t.me/${(window as any).Telegram?.WebApp?.initDataUnsafe?.user?.username || 'YOUR_BOT_USERNAME'}` : "/select-nation";
 
     return (
@@ -169,9 +169,9 @@ function Home() {
         )}
 
         <div className="bg-slate-900 border border-slate-700 p-6 rounded-2xl w-full">
-          <div className="text-4xl mb-2">{!player ? '👻' : player.level < 5 ? '🐺' : '🚩'}</div>
-          <h3 className="font-bold">{!player ? 'Perfil Inexistente' : player.level < 5 ? 'Floresta dos Lobos' : 'Escolha sua Nação'}</h3>
-          <p className="text-xs text-slate-500 mb-4">{!player ? 'Crie seu perfil no bot.' : player.level < 5 ? 'Use /farm no Bot para ganhar XP e Ouro.' : 'Sua jornada começa agora!'}</p>
+          <div className="text-4xl mb-2">{!player ? 'ðŸ‘»' : player.level < 5 ? 'ðŸº' : 'ðŸš©'}</div>
+          <h3 className="font-bold">{!player ? 'Perfil Inexistente' : player.level < 5 ? 'Floresta dos Lobos' : 'Escolha sua NaÃ§Ã£o'}</h3>
+          <p className="text-xs text-slate-500 mb-4">{!player ? 'Crie seu perfil no bot.' : player.level < 5 ? 'Use /farm no Bot para ganhar XP e Ouro.' : 'Sua jornada comeÃ§a agora!'}</p>
           <Link to={buttonLink} target={!player || player.level < 5 ? '_blank' : '_self'} className="bg-arcane-gold text-void-slate px-6 py-2 rounded-lg text-xs font-bold uppercase">
             {buttonText}
           </Link>
@@ -194,7 +194,7 @@ function Home() {
           {player.nations.name} Hero
         </h1>
         <p className="relative z-20 text-xs text-slate-400 font-mono uppercase tracking-[0.2em]">
-          {player.guilds?.name || 'Sem Guilda'} • Nível {player.level}
+          {player.guilds?.name || 'Sem Guilda'} â€¢ NÃ­vel {player.level}
         </p>
       </div>
 
@@ -202,15 +202,15 @@ function Home() {
       <div className="grid grid-cols-3 gap-1 px-4 -mt-5 relative z-30">
         <StatBox label="PODER" value={power} color="text-yellow-500" />
         <StatBox label="OURO" value={player.gold} color="text-arcane-gold" isGold />
-        <StatBox label="VITÓRIAS" value={player.wins} color="text-emerald-500" />
+        <StatBox label="VITÃ“RIAS" value={player.wins} color="text-emerald-500" />
       </div>
 
-      {/* Vitalidade e Vigor (Imersão e Sustentabilidade) */}
+      {/* Vitalidade e Vigor (ImersÃ£o e Sustentabilidade) */}
       <div className="px-4 mt-6 space-y-3 relative z-30">
         {/* HP Bar */}
         <div className="space-y-1">
           <div className="flex justify-between text-[10px] font-bold text-slate-400 px-1">
-            <span className="flex items-center gap-1"><span className="text-red-500">❤️</span> VITALIDADE</span>
+            <span className="flex items-center gap-1"><span className="text-red-500">â¤ï¸</span> VITALIDADE</span>
             <span className="font-mono">{player.current_hp || maxHp} / {maxHp}</span>
           </div>
           <div className="h-2 w-full bg-slate-900 border border-white/5 rounded-full p-0.5 shadow-inner">
@@ -224,7 +224,7 @@ function Home() {
         {/* Vigor Bar */}
         <div className="space-y-1">
           <div className="flex justify-between text-[10px] font-bold text-slate-400 px-1">
-            <span className="flex items-center gap-1"><span className="text-blue-500">⚡</span> VIGOR</span>
+            <span className="flex items-center gap-1"><span className="text-blue-500">âš¡</span> VIGOR</span>
             <span className="font-mono">{player.vigor || 100} / 100</span>
           </div>
           <div className="h-2 w-full bg-slate-900 border border-white/5 rounded-full p-0.5 shadow-inner">
@@ -236,13 +236,13 @@ function Home() {
         </div>
       </div>
 
-      {/* Buffs Ativos e Proteção */}
+      {/* Buffs Ativos e ProteÃ§Ã£o */}
       <div className="px-4 mt-4 flex flex-wrap gap-2">
         {protectionTime && (
           <div className="bg-blue-900/40 border border-blue-500/50 px-3 py-2 rounded-xl flex items-center gap-2 animate-pulse">
-            <span className="text-sm">🛡️</span>
+            <span className="text-sm">ðŸ›¡ï¸</span>
             <div>
-              <div className="text-[8px] text-blue-400 font-bold uppercase leading-none">Proteção Divina</div>
+              <div className="text-[8px] text-blue-400 font-bold uppercase leading-none">ProteÃ§Ã£o Divina</div>
               <div className="text-xs font-mono font-black text-white leading-none mt-1">{protectionTime}</div>
             </div>
           </div>
@@ -258,7 +258,7 @@ function Home() {
               <ItemIcon slot="relic" itemClass={20} size={16} isRelic />
             </div>
             <div className="text-left">
-              <div className="text-[8px] text-arcane-gold font-bold uppercase leading-none">Buff de Nação</div>
+              <div className="text-[8px] text-arcane-gold font-bold uppercase leading-none">Buff de NaÃ§Ã£o</div>
               <div className="text-[10px] font-black text-white leading-none mt-1 truncate max-w-[80px]">
                 {r.item_templates.name}
               </div>
@@ -268,14 +268,14 @@ function Home() {
 
         {!protectionTime && nationRelics.length === 0 && (
           <div className="w-full text-center text-[9px] text-slate-600 uppercase tracking-widest py-2">
-            Nenhum bônus de nação ativo no momento
+            Nenhum bÃ´nus de naÃ§Ã£o ativo no momento
           </div>
         )}
       </div>
 
       {/* Status da Guerra de Guildas */}
       <div className="px-4 mt-8">
-        <h2 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Territórios Dominados</h2>
+        <h2 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">TerritÃ³rios Dominados</h2>
         <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
           {territories.map((t) => (
             <div key={t.id} className="min-w-[140px] bg-slate-800/40 border border-slate-700 p-3 rounded-xl">
@@ -291,24 +291,24 @@ function Home() {
       <div className="p-4 grid grid-cols-1 gap-4 mt-4">
         {currentInvasion ? (
           <MenuCard 
-            title={`INVASÃO ATIVA: ${currentInvasion.nations.name.toUpperCase()}`} 
-            desc="Defenda ou ataque a Relíquia inimiga!" 
-            icon="⚔️" 
+            title={`INVASÃƒO ATIVA: ${currentInvasion.nations.name.toUpperCase()}`} 
+            desc="Defenda ou ataque a RelÃ­quia inimiga!" 
+            icon="âš”ï¸" 
             to="/invasion"
             highlight
           />
         ) : null}
         
         <div className="grid grid-cols-2 gap-4">
-          <MenuCard title="Loja VIP" desc="Benção dos Antigos" icon="💎" to="/vip-shop" />
-          <MenuCard title="Viajar" desc="Mudar região de caça" icon="🧭" to="/map-selection" />
-          <MenuCard title="Inventário" desc="Seus tesouros" icon="🎒" to="/inventory" />
-          <MenuCard title="Ranking" desc="Hall da Fama" icon="🏆" to="/ranking" />
+          <MenuCard title="Loja VIP" desc="BenÃ§Ã£o dos Antigos" icon="ðŸ’Ž" to="/vip-shop" />
+          <MenuCard title="Viajar" desc="Mudar regiÃ£o de caÃ§a" icon="ðŸ§­" to="/map-selection" />
+          <MenuCard title="InventÃ¡rio" desc="Seus tesouros" icon="ðŸŽ’" to="/inventory" />
+          <MenuCard title="Ranking" desc="Hall da Fama" icon="ðŸ†" to="/ranking" />
         </div>
-        <MenuCard title="Chat da Guilda" desc="Fale com seus aliados" icon="🏹" to="/guild-chat" />
+        <MenuCard title="Chat da Guilda" desc="Fale com seus aliados" icon="ðŸ¹" to="/guild-chat" />
       </div>
 
-      {/* Relatório de Expedição (Modal de Retorno) */}
+      {/* RelatÃ³rio de ExpediÃ§Ã£o (Modal de Retorno) */}
       {offlineReport && (
         <div className="fixed inset-0 bg-black/90 z-[60] flex items-center justify-center p-6 animate-in fade-in duration-500">
           <div className={cn(
@@ -320,10 +320,10 @@ function Home() {
               "text-2xl font-black font-cinzel mb-2 uppercase",
               offlineReport.died ? "text-red-500" : "text-arcane-gold"
             )}>
-              {offlineReport.died ? "💀 Derrota em Combate" : "Relatório de Caça"}
+              {offlineReport.died ? "ðŸ’€ Derrota em Combate" : "RelatÃ³rio de CaÃ§a"}
             </h2>
             <p className="text-[10px] text-slate-500 uppercase tracking-[0.2em] mb-6">
-              {offlineReport.died ? "Você foi abatido por NPCs!" : `Expedição de ${offlineReport.hours.toFixed(1)} horas`}
+              {offlineReport.died ? "VocÃª foi abatido por NPCs!" : `ExpediÃ§Ã£o de ${offlineReport.hours.toFixed(1)} horas`}
             </p>
             
             <div className="grid grid-cols-2 gap-4 mb-8">
@@ -338,10 +338,10 @@ function Home() {
             </div>
 
             {offlineReport.died && (
-              <p className="text-[10px] text-red-400 mb-6 italic">Seu herói fugiu de volta para a capital com ferimentos leves (-5% Adena).</p>
+              <p className="text-[10px] text-red-400 mb-6 italic">Seu herÃ³i fugiu de volta para a capital com ferimentos leves (-5% Adena).</p>
             )}
 
-            {player.is_vip && <div className="mb-6 text-[10px] text-arcane-gold animate-pulse font-bold">✨ Bônus VIP de 30% aplicado!</div>}
+            {player.is_vip && <div className="mb-6 text-[10px] text-arcane-gold animate-pulse font-bold">âœ¨ BÃ´nus VIP de 30% aplicado!</div>}
 
             <button 
               onClick={() => setOfflineReport(null)}
@@ -359,7 +359,7 @@ function Home() {
           to="/shop" 
           className="pointer-events-auto bg-gradient-to-b from-arcane-gold to-yellow-700 text-void-slate px-10 py-4 rounded-2xl font-black text-lg uppercase shadow-[0_0_30px_rgba(212,175,55,0.3)] active:scale-95 transition-all"
         >
-          💎 LOJA DE PACKS
+          ðŸ’Ž LOJA DE PACKS
         </Link>
       </div>
 
@@ -375,7 +375,7 @@ function Home() {
             <div className="relative z-10 flex flex-col items-center text-center">
               <ItemIcon slot="relic" itemClass={20} size={64} isRelic className="mb-4" />
               <h2 className="text-xl font-black text-arcane-gold font-cinzel uppercase mb-1">{selectedRelic.name}</h2>
-              <p className="text-[10px] text-slate-500 uppercase tracking-widest mb-6">Relíquia de Nação Ativa</p>
+              <p className="text-[10px] text-slate-500 uppercase tracking-widest mb-6">RelÃ­quia de NaÃ§Ã£o Ativa</p>
 
               <div className="grid grid-cols-2 gap-4 w-full mb-8">
                 <div className="bg-slate-800/50 border border-white/5 p-3 rounded-xl">
@@ -407,7 +407,7 @@ function StatBox({ label, value, color, isGold = false }: any) {
     <div className="bg-slate-900 border border-arcane-gold/30 rounded-lg p-3 text-center shadow-2xl backdrop-blur-md">
       <div className="text-[9px] font-bold text-slate-500 uppercase mb-1">{label}</div>
       <div className={cn("text-lg font-black font-mono", color)}>
-        {isGold ? `💰${value.toLocaleString()}` : value.toLocaleString()}
+        {isGold ? `ðŸ’°${value.toLocaleString()}` : value.toLocaleString()}
       </div>
     </div>
   )

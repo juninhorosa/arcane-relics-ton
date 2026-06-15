@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-start'
+import { createFileRoute } from '@tanstack/react-router'
 import { useTonConnectUI, TonConnectButton } from '@tonconnect/ui-react'
 import { useState } from 'react'
 
@@ -10,7 +10,7 @@ function Shop() {
   const [tonConnectUI] = useTonConnectUI()
   const [loading, setLoading] = useState(false)
 
-  // Obtém initData do SDK do Telegram
+  // ObtÃ©m initData do SDK do Telegram
   const initData = typeof window !== 'undefined' ? (window as any).Telegram?.WebApp?.initData : ''
 
   const handleBuyPack = async (packCode: string) => {
@@ -33,17 +33,17 @@ function Shop() {
       
       const { purchaseId, amount, receiver } = data
 
-      // 2. Solicitar transação via TON Connect
-      // Nota: O purchaseId é enviado como 'payload' (comentário) para identificação on-chain
+      // 2. Solicitar transaÃ§Ã£o via TON Connect
+      // Nota: O purchaseId Ã© enviado como 'payload' (comentÃ¡rio) para identificaÃ§Ã£o on-chain
       const transaction = {
         validUntil: Math.floor(Date.now() / 1000) + 600, // 10 minutos
         messages: [
           {
             address: receiver,
             amount: (amount * 1000000000).toString(), // Converter para nanoTON
-            // No TON, o comentário é um Cell. O SDK do TON Connect aceita o BOC em base64.
-            // Para simplificar a integração inicial, enviamos o ID. 
-            // Um worker backend (Fase 4.2) buscará esse ID nos comentários das transações.
+            // No TON, o comentÃ¡rio Ã© um Cell. O SDK do TON Connect aceita o BOC em base64.
+            // Para simplificar a integraÃ§Ã£o inicial, enviamos o ID. 
+            // Um worker backend (Fase 4.2) buscarÃ¡ esse ID nos comentÃ¡rios das transaÃ§Ãµes.
             payload: btoa(purchaseId), 
           },
         ],
@@ -51,7 +51,7 @@ function Shop() {
 
       await tonConnectUI.sendTransaction(transaction)
       
-      alert('Transação enviada! Assim que for confirmada na rede, seus itens aparecerão no inventário.')
+      alert('TransaÃ§Ã£o enviada! Assim que for confirmada na rede, seus itens aparecerÃ£o no inventÃ¡rio.')
     } catch (error: any) {
       console.error(error)
       alert(`Erro: ${error.message}`)
@@ -63,7 +63,7 @@ function Shop() {
   return (
     <div className="p-4 bg-slate-900 min-h-screen text-white">
       <header className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">Loja de Relíquias</h1>
+        <h1 className="text-2xl font-bold">Loja de RelÃ­quias</h1>
         <TonConnectButton />
       </header>
 
@@ -79,8 +79,8 @@ function Shop() {
           </div>
           
           <ul className="text-slate-300 text-sm space-y-2 mb-6">
-            <li>✨ 1x Item Aleatório Classe 17 (Divino)</li>
-            <li>💰 500 Moedas de Ouro</li>
+            <li>âœ¨ 1x Item AleatÃ³rio Classe 17 (Divino)</li>
+            <li>ðŸ’° 500 Moedas de Ouro</li>
           </ul>
 
           <button

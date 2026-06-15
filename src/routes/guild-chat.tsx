@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-start'
+import { createFileRoute } from '@tanstack/react-router'
 import { createClient } from '@supabase/supabase-js'
 import { useEffect, useState, useRef } from 'react'
 import type { Database } from '../integrations/supabase/types'
@@ -39,7 +39,7 @@ function GuildChat() {
       }
       setPlayer(playerData)
 
-      // 2. Buscar histórico de mensagens (últimas 50)
+      // 2. Buscar histÃ³rico de mensagens (Ãºltimas 50)
       const { data: history } = await supabase
         .from('guild_chat_messages' as any)
         .select('*, players(profiles(display_name))')
@@ -51,7 +51,7 @@ function GuildChat() {
       setLoading(false)
       setTimeout(scrollToBottom, 100)
 
-      // 3. Inscrição Realtime para novas mensagens
+      // 3. InscriÃ§Ã£o Realtime para novas mensagens
       const channel = supabase
         .channel(`guild:${playerData.guild_id}`)
         .on(
@@ -108,9 +108,9 @@ function GuildChat() {
   if (loading) return <div className="p-8 text-center text-slate-500 italic">Abrindo pergaminhos da guilda...</div>
   if (!player?.guild_id) return (
     <div className="p-8 text-center bg-slate-900 min-h-screen text-white flex flex-col justify-center">
-      <div className="text-6xl mb-4">🏚️</div>
-      <h2 className="text-2xl font-bold">Sem Aliança</h2>
-      <p className="text-slate-400">Você precisa se juntar a uma guilda para acessar este chat.</p>
+      <div className="text-6xl mb-4">ðŸšï¸</div>
+      <h2 className="text-2xl font-bold">Sem AlianÃ§a</h2>
+      <p className="text-slate-400">VocÃª precisa se juntar a uma guilda para acessar este chat.</p>
     </div>
   )
 
@@ -150,7 +150,7 @@ function GuildChat() {
           className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-yellow-600 transition-colors"
         />
         <button type="submit" className="bg-yellow-600 p-2 rounded-xl active:scale-90 transition-transform">
-          🏹
+          ðŸ¹
         </button>
       </form>
     </div>

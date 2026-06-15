@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-start'
+import { createFileRoute } from '@tanstack/react-router'
 import { useEquippedItems, usePlayerInventory, useSetBonus } from '../hooks/use-items'
 import { EquipmentSlots } from '../components/ItemCard'
 import { calculatePower, calculateMaxHp } from '../lib/power-calculation'

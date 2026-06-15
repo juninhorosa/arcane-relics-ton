@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-start'
+import { createFileRoute } from '@tanstack/react-router'
 import { createClient } from '@supabase/supabase-js'
 import { cn } from '../lib/utils'
 import { useEffect, useState, useRef } from 'react'
@@ -72,7 +72,7 @@ function WorldBoss() {
         setLastDamage(damage)
         setIsShaking(true)
         
-        // Gerar partículas de impacto aleatórias (Fase 10.4)
+        // Gerar partÃ­culas de impacto aleatÃ³rias (Fase 10.4)
         const burst = Array.from({ length: 12 }).map((_, i) => ({
           id: Date.now() + i,
           x: (Math.random() - 0.5) * 280,
@@ -80,7 +80,7 @@ function WorldBoss() {
         }))
         setParticles(burst)
 
-        // Feedback visual rápido de redução de HP antes do próximo poll
+        // Feedback visual rÃ¡pido de reduÃ§Ã£o de HP antes do prÃ³ximo poll
         setBoss((prev: any) => ({ ...prev, current_hp: prev.current_hp - damage }))
         
         setTimeout(() => setIsShaking(false), 400)
@@ -101,8 +101,8 @@ function WorldBoss() {
   if (loading) return <div className="p-8 text-center text-slate-500 italic">Invocando a besta...</div>
   if (!boss) return (
     <div className="p-8 text-center bg-slate-900 min-h-screen text-white flex flex-col justify-center">
-      <div className="text-6xl mb-4">🕊️</div>
-      <h2 className="text-2xl font-bold">O Reino está em Paz</h2>
+      <div className="text-6xl mb-4">ðŸ•Šï¸</div>
+      <h2 className="text-2xl font-bold">O Reino estÃ¡ em Paz</h2>
       <p className="text-slate-400">Nenhum Chefe de Mundo detectado no momento.</p>
     </div>
   )
@@ -111,9 +111,9 @@ function WorldBoss() {
 
   return (
     <div className="p-4 bg-slate-900 min-h-screen text-white pb-24">
-      {/* Cabeçalho do Boss */}
+      {/* CabeÃ§alho do Boss */}
       <div className={cn("relative mb-8 text-center pt-8 transition-transform", isShaking && "animate-shake")}>
-        {/* Partículas de Impacto */}
+        {/* PartÃ­culas de Impacto */}
         {particles.map((p) => (
           <div
             key={p.id}
@@ -125,10 +125,10 @@ function WorldBoss() {
           />
         ))}
 
-        <div className="text-6xl mb-4 animate-bounce">👿</div>
+        <div className="text-6xl mb-4 animate-bounce">ðŸ‘¿</div>
         <h1 className="text-3xl font-black text-red-500 uppercase tracking-widest mb-2">{boss.name}</h1>
         <div className="flex justify-center gap-4 text-xs font-mono text-slate-400 uppercase">
-          <span>Nível {boss.level || '??'}</span>
+          <span>NÃ­vel {boss.level || '??'}</span>
           <span>Evento Global</span>
         </div>
       </div>
@@ -159,7 +159,7 @@ function WorldBoss() {
       {/* Ranking de Dano */}
       <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-4 mb-8">
         <h3 className="text-sm font-bold text-slate-400 uppercase mb-4 flex items-center gap-2">
-          <span className="text-yellow-500">🏆</span> Principais Contribuidores
+          <span className="text-yellow-500">ðŸ†</span> Principais Contribuidores
         </h3>
         <div className="space-y-3">
           {ranking.map((r, i) => (
@@ -171,11 +171,11 @@ function WorldBoss() {
               <span className="font-mono text-xs text-red-400 font-bold">{r.damage.toLocaleString()}</span>
             </div>
           ))}
-          {ranking.length === 0 && <div className="text-center text-xs text-slate-600 py-2">Ninguém atacou ainda. Seja o primeiro!</div>}
+          {ranking.length === 0 && <div className="text-center text-xs text-slate-600 py-2">NinguÃ©m atacou ainda. Seja o primeiro!</div>}
         </div>
       </div>
 
-      {/* Botão de Ataque */}
+      {/* BotÃ£o de Ataque */}
       <div className="fixed bottom-6 left-4 right-4">
         <button
           onClick={handleAttack}
@@ -185,11 +185,11 @@ function WorldBoss() {
             ${attacking ? 'bg-slate-700 opacity-50' : 'bg-red-600 hover:bg-red-500 shadow-[0_0_20px_rgba(220,38,38,0.4)]'}
           `}
         >
-          {attacking ? 'Golpeando...' : '⚔️ ATACAR AGORA'}
+          {attacking ? 'Golpeando...' : 'âš”ï¸ ATACAR AGORA'}
         </button>
       </div>
 
-      {/* Estilos específicos para animações personalizadas */}
+      {/* Estilos especÃ­ficos para animaÃ§Ãµes personalizadas */}
       <style jsx>{`
         @keyframes ping-once {
           0% { transform: translate(-50%, 0) scale(0.5); opacity: 0; }

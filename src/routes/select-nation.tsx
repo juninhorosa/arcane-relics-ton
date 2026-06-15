@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-start'
+import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import { NationCrest } from '../components/NationCrest'
@@ -60,7 +60,7 @@ function SelectNation() {
 
   const handleSelectNation = async (nationId: string) => {
     if (!playerId) {
-      setMessage('Erro: Jogador não encontrado')
+      setMessage('Erro: Jogador nÃ£o encontrado')
       return
     }
 
@@ -74,20 +74,20 @@ function SelectNation() {
         .eq('id', playerId)
 
       if (updateErr) {
-        setMessage('Erro ao atualizar nação')
+        setMessage('Erro ao atualizar naÃ§Ã£o')
         return
       }
 
       setCurrentNationId(nationId)
       setSelectedNation(nationId)
       const nation = nations.find(n => n.id === nationId)
-      setMessage(`✅ Lealdade jurada à ${nation?.name || nationId}!`)
+      setMessage(`âœ… Lealdade jurada Ã  ${nation?.name || nationId}!`)
 
       setTimeout(() => {
         window.location.href = '/'
       }, 1500)
     } catch {
-      setMessage('Erro ao processar solicitação')
+      setMessage('Erro ao processar solicitaÃ§Ã£o')
     } finally {
       setLoading(false)
     }
@@ -97,7 +97,7 @@ function SelectNation() {
     return (
       <div className="min-h-screen bg-void-slate text-white p-6 flex flex-col items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-black text-arcane-gold font-cinzel mb-4">⚠️ Erro</h1>
+          <h1 className="text-2xl font-black text-arcane-gold font-cinzel mb-4">âš ï¸ Erro</h1>
           <p className="text-slate-400">Abrindo no Telegram WebApp...</p>
         </div>
       </div>
@@ -112,8 +112,8 @@ function SelectNation() {
         </h1>
         <p className="text-slate-400 text-sm">
           {currentNationId
-            ? `Na��o atual: ${nations.find(n => n.id === currentNationId)?.name || currentNationId}`
-            : 'Escolha sua nação para continuar a jornada'}
+            ? `Naï¿½ï¿½o atual: ${nations.find(n => n.id === currentNationId)?.name || currentNationId}`
+            : 'Escolha sua naÃ§Ã£o para continuar a jornada'}
         </p>
       </div>
 
@@ -139,7 +139,7 @@ function SelectNation() {
               )}
             </div>
             {selectedNation === nation.id && (
-              <span className="text-arcane-gold text-2xl">✓</span>
+              <span className="text-arcane-gold text-2xl">âœ“</span>
             )}
           </button>
         ))}
@@ -148,7 +148,7 @@ function SelectNation() {
       {message && (
         <div className={cn(
           'px-4 py-2 text-center text-sm font-bold',
-          message.includes('✅') ? 'text-emerald-400' : 'text-red-400'
+          message.includes('âœ…') ? 'text-emerald-400' : 'text-red-400'
         )}>
           {message}
         </div>
@@ -157,8 +157,8 @@ function SelectNation() {
       {loading && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-slate-900 border border-arcane-gold p-6 rounded-lg text-center">
-            <p className="text-arcane-gold font-bold mb-2">⚙️ Processando...</p>
-            <p className="text-slate-400 text-sm">Jurando lealdade à nação</p>
+            <p className="text-arcane-gold font-bold mb-2">âš™ï¸ Processando...</p>
+            <p className="text-slate-400 text-sm">Jurando lealdade Ã  naÃ§Ã£o</p>
           </div>
         </div>
       )}

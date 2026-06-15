@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-start'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { createClient } from '@supabase/supabase-js'
 import { useEffect, useState } from 'react'
 import type { Database } from '../integrations/supabase/types'
@@ -35,7 +35,7 @@ function MapSelection() {
         .single()
       
       const playerData = (profile as any)?.players?.[0]
-      if (!playerData) return // Redirecionar para home se não for player
+      if (!playerData) return // Redirecionar para home se nÃ£o for player
       setPlayer(playerData)
 
       const { data: mapsData } = await supabase
@@ -56,7 +56,7 @@ function MapSelection() {
     if (!selectedMap) return
 
     if (player.level < selectedMap.min_level) {
-      alert(`Você precisa ser nível ${selectedMap.min_level} para viajar para ${selectedMap.name}!`)
+      alert(`VocÃª precisa ser nÃ­vel ${selectedMap.min_level} para viajar para ${selectedMap.name}!`)
       return
     }
 
@@ -70,7 +70,7 @@ function MapSelection() {
       const data = await res.json()
       if (res.ok) {
         alert(data.message)
-        navigate({ to: '/' }) // Volta para a home após viajar
+        navigate({ to: '/' }) // Volta para a home apÃ³s viajar
       } else {
         alert(data.error)
       }
@@ -88,7 +88,7 @@ function MapSelection() {
       <header className="mb-8 text-center pt-6">
         <h1 className="text-3xl font-black text-arcane-gold uppercase tracking-widest mb-2 font-cinzel">Jornada Arcana</h1>
         <p className="text-slate-400 text-sm max-w-[280px] mx-auto">
-          Escolha sua próxima região de caça. Mapas mais perigosos oferecem maiores recompensas.
+          Escolha sua prÃ³xima regiÃ£o de caÃ§a. Mapas mais perigosos oferecem maiores recompensas.
         </p>
       </header>
 
@@ -121,10 +121,10 @@ function MapSelection() {
               <div className="absolute top-0 left-0 w-1 h-full bg-slate-600" style={{ backgroundColor: isCurrent ? '#10B981' : isLocked ? '#475569' : '#D4AF37' }}></div>
               
               <div className="flex items-center gap-4 relative z-10">
-                <div className="text-4xl">{isLocked ? '🔒' : '🗺️'}</div>
+                <div className="text-4xl">{isLocked ? 'ðŸ”’' : 'ðŸ—ºï¸'}</div>
                 <div className="flex-1">
                   <h3 className="text-xl font-black tracking-tight font-cinzel">{map.name}</h3>
-                  <p className="text-xs text-slate-500 italic">Nível Mínimo: {map.min_level}</p>
+                  <p className="text-xs text-slate-500 italic">NÃ­vel MÃ­nimo: {map.min_level}</p>
                 </div>
                 {isCurrent && <span className="bg-emerald-500/10 text-emerald-500 text-[10px] px-2 py-0.5 rounded-full font-bold">ATUAL</span>}
               </div>
