@@ -1,0 +1,197 @@
+```
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                     ARCANE RELICS - SISTEMA DE CLASSES                      ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              5 CLASSES CRIADAS                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+  ⚔️  PALADINO                  🗡️  GUERREIRO
+  ├─ Ataque: +8               ├─ Ataque: +20
+  ├─ Defesa: +15              ├─ Defesa: +5
+  ├─ Vida: +20                ├─ Vida: +15
+  └─ Habilidade:              └─ Habilidade:
+     Proteção Divina              Grito de Guerra
+     (+30% defesa vs dark)        (+25% ataque)
+
+  🔮  MAGO                      🏹  ARQUEIRO
+  ├─ Ataque: +15               ├─ Ataque: +12
+  ├─ Defesa: +8                ├─ Defesa: +10
+  ├─ Vida: +10                 ├─ Vida: +8
+  └─ Habilidade:               └─ Habilidade:
+     Explosão Arcana             Tiro Crítico
+     (dano splash 20%)           (15% crítico = 2x)
+
+  ✨  CLÉRIGO
+  ├─ Ataque: +5
+  ├─ Defesa: +12
+  ├─ Vida: +25
+  └─ Habilidade:
+     Bênção Curadora
+     (+10% HP ao vencer)
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          ESTRUTURA DE ARQUIVOS                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+📦 SRC/
+├─ 📂 lib/
+│  └─ 📄 character-classes.ts
+│     ├─ Types: CharacterClass, CharacterClassCode
+│     ├─ Constants: CHARACTER_CLASSES
+│     ├─ Utils: getClassByCode, getAllClasses, getClassBonuses, etc
+│     └─ Functions: isValidClassCode, formatClassName
+│
+├─ 📂 components/
+│  └─ 📄 ClassSelector.tsx
+│     ├─ Component: ClassSelector (seletor com descrições)
+│     ├─ Component: ClassDisplay (exibir classe)
+│     └─ Component: ClassGrid (grid compacto)
+│
+├─ 📂 hooks/
+│  └─ 📄 use-character-class.tsx
+│     ├─ Hook: usePlayerClass (gerenciar classe do player)
+│     └─ Hook: useCharacterClasses (carregar classes)
+│
+└─ 📂 routes/
+   ├─ 📄 select-class.tsx (NOVA PÁGINA)
+   ├─ 📄 CLASS_SYSTEM.md (Documentação)
+   └─ 📄 index.tsx (página inicial - a atualizar)
+
+📦 SUPABASE/
+├─ 📂 migrations/
+│  └─ 📄 20260615000003_character_classes.sql
+│     ├─ CREATE TYPE character_class (enum)
+│     ├─ CREATE TABLE character_classes
+│     ├─ ALTER TABLE players ADD class_id
+│     ├─ RLS Policies
+│     └─ SEED com 5 classes
+
+📦 ROOT/
+└─ 📄 CLASSES_IMPLEMENTATION_GUIDE.md (Guia de ativação)
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        BANCO DE DADOS - ESTRUTURA                           │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+CHARACTER_CLASSES TABLE
+┌──────────┬──────────────┬────────────┬────────────────┐
+│ id (PK)  │ code (ENUM)  │ name       │ attack_bonus   │
+├──────────┼──────────────┼────────────┼────────────────┤
+│ uuid     │ 'paladin'    │ Paladino   │ 8              │
+│ uuid     │ 'guerreiro'  │ Guerreiro  │ 20             │
+│ uuid     │ 'mago'       │ Mago       │ 15             │
+│ uuid     │ 'archer'     │ Arqueiro   │ 12             │
+│ uuid     │ 'clerigo'    │ Clérigo    │ 5              │
+└──────────┴──────────────┴────────────┴────────────────┘
+  defense_bonus | hp_bonus | ability | emoji | description
+
+PLAYERS TABLE (UPDATED)
+┌────────────────┬──────────────────┐
+│ id (PK)        │ class_id (FK)    │
+├────────────────┼──────────────────┤
+│ uuid           │ character_classes.id (NULL ok)
+└────────────────┴──────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            FLUXO DE USO (UI)                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Usuario
+   │
+   ├─→ Abre bot Telegram
+   │   └─→ /start ou abrir mini app
+   │
+   ├─→ Cria conta
+   │
+   ├─→ Seleciona Nação [select-nation]
+   │
+   ├─→ Seleciona Classe [/select-class] ← NOVA ROTA
+   │   └─→ ClassSelector component
+   │
+   └─→ Começa jogo [index.tsx]
+       └─→ Exibe classe com ClassDisplay
+       └─→ Aplica bônus de classe ao poder
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            EXEMPLO DE CÓDIGO                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+USAR NO COMPONENTE
+─────────────────
+
+import { ClassDisplay } from '@/components/ClassSelector'
+import { usePlayerClass } from '@/hooks/use-character-class'
+
+function HomeScreen() {
+  const { playerClass } = usePlayerClass(playerId)
+  
+  return (
+    <div>
+      <ClassDisplay classCode={playerClass?.code} />
+      <p>Ataque: {baseATK + playerClass?.attack_bonus}</p>
+    </div>
+  )
+}
+
+USAR UTILITÁRIOS
+────────────────
+
+import { 
+  getClassByCode, 
+  formatClassName, 
+  getClassBonuses 
+} from '@/lib/character-classes'
+
+const paladino = getClassByCode('paladin')
+console.log(formatClassName('mago')) // "🔮 Mago"
+
+const bonuses = getClassBonuses('guerreiro')
+// { attack: 20, defense: 5, hp: 15 }
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          PRÓXIMOS PASSOS                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+[1] ATIVAR NO SUPABASE
+    □ Executar migração SQL: .lovable/20260615000003_character_classes.sql
+    
+[2] INTEGRAR AO ROUTER
+    □ Adicionar rota /select-class em src/router.tsx
+    
+[3] ATUALIZAR HOME
+    □ Importar ClassDisplay e usePlayerClass
+    □ Exibir classe atual do player
+    
+[4] WEBHOOK
+    □ Redirecionar novo player para /select-class após nação
+    
+[5] COMBATE
+    □ Integrar habilidades especiais de classe
+    □ Aplicar bônus em calculate_player_power
+    
+[6] TESTES
+    □ Selecionar classe
+    □ Verificar banco de dados
+    □ Testar cálculo de poder
+    □ Testar combate com diferentes classes
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            DOCUMENTAÇÃO                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+👉 LEIA PRIMEIRO:
+   CLASSES_IMPLEMENTATION_GUIDE.md
+   
+👉 EXEMPLOS DE CÓDIGO:
+   src/routes/CLASS_SYSTEM.md
+   
+👉 TESTES LOCAIS:
+   http://localhost:5173/select-class
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    SISTEMA DE CLASSES CRIADO COM SUCESSO!                   ║
+║                    5 arquétipos, 7 arquivos, 100% tipado                    ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+```
