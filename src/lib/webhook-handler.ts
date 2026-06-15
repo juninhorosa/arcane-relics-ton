@@ -365,7 +365,7 @@ async function handleRanking(chatId: number) {
 }
 
 async function sendTelegramMessage(chatId: number, text: string, replyMarkup?: any) {
-  await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+  const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -375,4 +375,8 @@ async function sendTelegramMessage(chatId: number, text: string, replyMarkup?: a
       reply_markup: replyMarkup
     })
   })
+  if (!res.ok) {
+    const errBody = await res.text()
+    console.error(`Telegram sendMessage failed (${res.status}): ${errBody}`)
+  }
 }
