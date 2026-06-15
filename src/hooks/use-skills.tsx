@@ -1,4 +1,3 @@
-// @ts-nocheck - tables not yet migrated
 import { useEffect, useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import type { Skill, PlayerSkill } from '../lib/skills-system'

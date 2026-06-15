@@ -1,4 +1,3 @@
-// @ts-nocheck - tables not yet migrated
 import { useEffect, useState, useCallback } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import type { Database } from '../integrations/supabase/types'
